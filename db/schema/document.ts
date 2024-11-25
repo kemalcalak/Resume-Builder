@@ -56,4 +56,18 @@ export const createDocumentTableSchema = createInsertSchema(documentTable, {
   currentPosition: true,
 });
 
+export const updateCombinedSchema = z.object({
+  title: createDocumentTableSchema.shape.title.optional(),
+  status: createDocumentTableSchema.shape.status.optional(),
+  thumbnail: createDocumentTableSchema.shape.thumbnail.optional(),
+  summary: createDocumentTableSchema.shape.summary.optional(),
+  themeColor: createDocumentTableSchema.shape.themeColor.optional(),
+  currentPosition: createDocumentTableSchema.shape.currentPosition.optional(),
+  personalInfo: personalInfoTableSchema.optional(),
+  education: z.array(educationTableSchema).optional(),
+  experience: z.array(experienceTableSchema).optional(),
+});
+
 export type DocumentSchema = z.infer<typeof createDocumentTableSchema>;
+
+export type UpdateDocumentSchema = z.infer<typeof updateCombinedSchema>;

@@ -1,13 +1,12 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { logger } from "hono/logger";
-import authors from "./authors";
-import books from "./books";
 import { HTTPException } from "hono/http-exception";
+import documentRoute from "./document";
 
 export const runtime = "edge";
 
-const app = new Hono().basePath("/api");
+const app = new Hono();
 
 app.use("*", logger());
 
@@ -18,16 +17,16 @@ app.onError((err, c) => {
   return c.json({ error: "internal error" });
 });
 
-const routes = app.route("/authors", authors).route("/books", books);
+const routes = app.basePath("/api").route("/document", documentRoute);
 
 app.get("/", (c) => {
   return c.json({
-    message: "Hello from Resume Builder!",
+    message: "Hello from Ai Resume!",
   });
 });
+
+export type AppType = typeof routes;
 
 export const GET = handle(app);
 export const POST = handle(app);
 export const PATCH = handle(app);
-
-export type AppType = typeof routes;

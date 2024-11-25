@@ -15,10 +15,6 @@ export const personalInfoTable = pgTable("personal_info", {
   address: varchar("address", { length: 500 }),
   phone: varchar("phone", { length: 50 }),
   email: varchar("email", { length: 255 }),
-  website: varchar("website", { length: 255 }),
-  linkedin: varchar("linkedin", { length: 255 }),
-  github: varchar("github", { length: 255 }),
-  medium: varchar("medium", { length: 255 }),
 });
 
 export const personalInfoRelations = relations(
