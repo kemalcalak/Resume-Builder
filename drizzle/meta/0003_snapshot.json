@@ -1,6 +1,6 @@
 {
-  "id": "489e8d85-b0e7-4492-ba20-f29d1946c399",
-  "prevId": "605fa315-badf-478b-81b8-0b879f4ef34b",
+  "id": "34006a6d-6816-4778-aba6-8c2fcdbb8c09",
+  "prevId": "e5aeb797-498e-49f8-9f3b-7ec6cf11103d",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -311,30 +311,6 @@
         },
         "email": {
           "name": "email",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "website": {
-          "name": "website",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "linkedin": {
-          "name": "linkedin",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "github": {
-          "name": "github",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "medium": {
-          "name": "medium",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false

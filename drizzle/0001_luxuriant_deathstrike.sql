@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS "personal_info" (
 	"medium" varchar(255)
 );
 --> statement-breakpoint
-ALTER TABLE "document" ALTER COLUMN "theme_color" SET DEFAULT '#7c3aed';--> statement-breakpoint
+ALTER TABLE "document" ALTER COLUMN "theme_color" SET DEFAULT '#e11d48';--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "education" ADD CONSTRAINT "education_document_id_document_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."document"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
