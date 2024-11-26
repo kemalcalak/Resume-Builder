@@ -1,3 +1,34 @@
+DO $$ BEGIN
+ CREATE TYPE "public"."status" AS ENUM('archived', 'private', 'public');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "certificate" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"document_id" integer,
+	"certificate_name" varchar(255),
+	"who_gave" varchar(255),
+	"issue_date" date
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "document" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"document_id" varchar NOT NULL,
+	"user_id" varchar NOT NULL,
+	"title" varchar(255) NOT NULL,
+	"summary" text,
+	"theme_color" varchar(255) DEFAULT '#e11d48' NOT NULL,
+	"thumbnail" text,
+	"current_position" integer DEFAULT 1 NOT NULL,
+	"status" "status" DEFAULT 'private' NOT NULL,
+	"author_name" varchar(255) NOT NULL,
+	"author_email" varchar(255) NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "document_document_id_unique" UNIQUE("document_id")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "education" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"document_id" integer NOT NULL,
@@ -37,7 +68,21 @@ CREATE TABLE IF NOT EXISTS "personal_info" (
 	"medium" varchar(255)
 );
 --> statement-breakpoint
-ALTER TABLE "document" ALTER COLUMN "theme_color" SET DEFAULT '#e11d48';--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "project" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"document_id" integer,
+	"project_name" varchar(255),
+	"project_summary" text,
+	"start_date" date,
+	"end_date" date
+);
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "certificate" ADD CONSTRAINT "certificate_document_id_document_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."document"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "education" ADD CONSTRAINT "education_document_id_document_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."document"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
@@ -52,6 +97,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "personal_info" ADD CONSTRAINT "personal_info_document_id_document_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."document"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "project" ADD CONSTRAINT "project_document_id_document_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."document"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -16,6 +16,10 @@ enum Status {
       address: "1234 Elm Street, CA 90210",
       phone: "(987)-654-3210",
       email: "sarah.johnson@example.com",
+      website: "sarahjohnson.com",
+      linkedin: "sarahjohnson",
+      github: "sarahjohnson",
+      medium: "sarahjohnson",
     },
     summary:
       "Experienced software engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Proficient in both front-end and back-end development, with a focus on building scalable web applications and improving user experience.",
@@ -73,4 +77,32 @@ enum Status {
           "Completed coursework in algorithms, data structures, and software engineering, with an emphasis on hands-on coding projects and internships.",
       },
     ],
+    projects:[
+      {
+        projectName: "Portfolio Website",
+        projectSummary: "Designed and developed a personal portfolio website to showcase projects, skills, and experience. Built with React, Next.js, and Tailwind CSS.",
+        startDate: "Jan 2022",
+        endDate: "Feb 2022",
+      },
+      {
+        projectName: "Task Management App",
+        projectSummary: "Created a task management application to track projects, deadlines, and progress. Developed with React, Redux, and Firebase.",
+        startDate: "Apr 2021",
+        endDate: "Jun 2021",
+      },
+    ],
+    certificates:[
+      {
+        certificateName: "AWS Certified Solutions Architect",
+        whoGave: "Amazon Web Services",
+        teacher:  "John Doe",
+        issueDate: "Jul 2021",
+      },
+      {
+        certificateName: "Web development",
+        whoGave: "Udemy",
+        teacher:  "Kemal Calak",
+        issueDate: "Jul 2024",
+      }
+    ]
   };

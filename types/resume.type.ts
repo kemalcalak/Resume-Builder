@@ -22,6 +22,24 @@ export type EducationType = {
   description: string | null;
 };
 
+export type ProjectType = {
+  id?: number;
+  docId?: number | null;
+  projectName: string | null;
+  projectSummary: string | null;
+  startDate: string | null;
+  endDate: string | null;
+};
+
+export type CertificateType = {
+  id?: number;
+  docId?: number | null;
+  certificateName: string | null;
+  teacher: string | null;
+  whoGave: string | null;
+  issueDate: string | null;
+}
+
 export type PersonalInfoType = {
   id?: number;
   docId?: number | null;
@@ -51,5 +69,7 @@ export type ResumeDataType = {
   summary: string | null;
   experiences?: ExperienceType[] | null;
   educations?: EducationType[] | null;
+  projects?: ProjectType[] | null;
+  certificates?: CertificateType[] | null;
   updatedAt?: string;
 };

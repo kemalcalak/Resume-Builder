@@ -5,36 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1732525803668,
-      "tag": "0000_parallel_nextwave",
+      "when": 1732627836745,
+      "tag": "0000_orange_nehzno",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1732540485461,
-      "tag": "0001_luxuriant_deathstrike",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1732546610321,
-      "tag": "0002_cheerful_trauma",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1732553048219,
-      "tag": "0003_thankful_hiroim",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1732554505649,
-      "tag": "0004_acoustic_talon",
+      "when": 1732629365827,
+      "tag": "0001_hard_starjammers",
       "breakpoints": true
     }
   ]

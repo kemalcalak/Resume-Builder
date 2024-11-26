@@ -1,1 +1,0 @@
-ALTER TABLE "document" ALTER COLUMN "theme_color" SET DEFAULT '#e11d48';

@@ -11,6 +11,8 @@ import {
 import { personalInfoTable, personalInfoTableSchema } from "./personal-info";
 import { experienceTable, experienceTableSchema } from "./experience";
 import { educationTable, educationTableSchema } from "./education";
+import { projectTable, projectTableSchema } from "./project";
+import { certificateTable, certificateTableSchema } from "./certificates";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -39,6 +41,8 @@ export const documentRelations = relations(documentTable, ({ one, many }) => {
     personalInfo: one(personalInfoTable),
     experiences: many(experienceTable),
     educations: many(educationTable),
+    prjects: many(projectTable),
+    certificates: many(certificateTable),
   };
 });
 
@@ -66,6 +70,8 @@ export const updateCombinedSchema = z.object({
   personalInfo: personalInfoTableSchema.optional(),
   education: z.array(educationTableSchema).optional(),
   experience: z.array(experienceTableSchema).optional(),
+  project: z.array(projectTableSchema).optional(),
+  certificate: z.array(certificateTableSchema).optional(),
 });
 
 export type DocumentSchema = z.infer<typeof createDocumentTableSchema>;

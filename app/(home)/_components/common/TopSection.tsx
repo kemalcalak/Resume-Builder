@@ -23,6 +23,17 @@ const TopSection = () => {
             onSave={(value)=>console.log(value)}
           />
         </div>
+        <div className="flex items-center gap-2">
+          {/* {ThemeColor} */}
+
+          {/* Preview Modal */}
+
+          {/* Download resume */}
+
+          {/* Share resume */}
+
+          {/* More Option */}
+        </div>
       </div>
     </>
   );
