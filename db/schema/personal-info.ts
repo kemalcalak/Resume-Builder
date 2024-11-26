@@ -41,5 +41,9 @@ export const personalInfoTableSchema = createInsertSchema(personalInfoTable, {
   address: true,
   phone: true,
   email: true,
+  website: true,
+  linkedin: true,
+  github: true,
+  medium: true,
 });
 export type PersonalSchema = z.infer<typeof personalInfoTableSchema>;
