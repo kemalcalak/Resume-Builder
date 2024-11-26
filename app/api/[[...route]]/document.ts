@@ -9,6 +9,7 @@ import { getAuthUser } from "@/lib/kinde";
 import { generateDocUUID } from "@/lib/helper";
 import { db } from "@/db";
 import { desc, eq, ne, and } from "drizzle-orm";
+import { z } from "zod";
 
 const documentRoute = new Hono()
   .post(
@@ -83,6 +84,47 @@ const documentRoute = new Hono()
         500
       );
     }
-  });
+  })
+  .get(
+    "/:documentId",
+    zValidator(
+      "param",
+      z.object({
+        documentId: z.string(),
+      })
+    ),
+    getAuthUser,
+    async (c) => {
+      try {
+        const user = c.get("user");
+        const { documentId } = c.req.valid("param");
+        const userId = user?.id;
+        const documentData = await db.query.documentTable.findFirst({
+          where: and(
+            eq(documentTable.userId, userId),
+            eq(documentTable.documentId, documentId)
+          ),
+          with: {
+            personalInfo: true,
+            experiences: true,
+            educations: true,
+          },
+        });
+        return c.json({
+          success: true,
+          data: documentData,
+        });
+      } catch (error) {
+        return c.json(
+          {
+            success: false,
+            message: "Failed to fetch document",
+            error: error,
+          },
+          500
+        );
+      }
+    }
+  );
 
 export default documentRoute;

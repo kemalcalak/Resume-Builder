@@ -1,11 +1,13 @@
-import React from 'react'
+import EditResume from "../../../../_components/EditResume";
+import { ResumeInfoProvider } from "@/context/resume-info-provider";
+import React from "react";
 
 const page = () => {
   return (
-    <div>
-      Edit 
-    </div>
-  )
-}
+    <ResumeInfoProvider>
+      <EditResume />
+    </ResumeInfoProvider>
+  );
+};
 
-export default page
+export default page;
