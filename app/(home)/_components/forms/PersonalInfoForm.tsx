@@ -30,12 +30,39 @@ const initialState = {
   medium: "",
 };
 
+// Validation functions
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone: string) => {
+  const phoneRegex =
+    /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,9}$/;
+  return phoneRegex.test(phone);
+};
+
 const PersonalInfoForm = (props: { handleNext: () => void }) => {
   const { handleNext } = props;
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
   const { mutateAsync, isPending } = useUpdateDocument();
   const [personalInfo, setPersonalInfo] =
     useState<PersonalInfoType>(initialState);
+
+  // Define required fields with their display labels
+  const requiredFields = [
+    { key: "firstName", label: "First Name" },
+    { key: "lastName", label: "Last Name" },
+    { key: "jobTitle", label: "Job Title" },
+    { key: "phone", label: "Phone number" },
+    { key: "email", label: "E-Mail address" },
+    { key: "address", label: "Address" },
+  ] as const;
+
+  // Error state with precise typing
+  const [errors, setErrors] = useState<{
+    [Key in (typeof requiredFields)[number]["key"]]?: string;
+  }>({});
 
   useEffect(() => {
     if (resumeInfo?.personalInfo) {
@@ -49,53 +76,111 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
     (e: { target: { name: string; value: string } }) => {
       const { name, value } = e.target;
 
-      setPersonalInfo({ ...personalInfo, [name]: value });
+      // Clear previous errors when typing
+      if (errors[name as keyof typeof errors]) {
+        setErrors((prev) => ({ ...prev, [name]: undefined }));
+      }
 
-      if (!resumeInfo) return;
+      // Special handling for phone to prevent alphabet characters
+      if (name === "phone") {
+        // Allow only digits, spaces, +, -, (), .
+        const phoneValue = value.replace(/[^\d\s+\-().]/g, "");
 
-      onUpdate({
-        ...resumeInfo,
-        personalInfo: {
-          ...resumeInfo.personalInfo,
-          [name]: value,
-        },
-      });
+        setPersonalInfo((prev) => ({ ...prev, [name]: phoneValue }));
+
+        if (!resumeInfo) return;
+
+        onUpdate({
+          ...resumeInfo,
+          personalInfo: {
+            ...resumeInfo.personalInfo,
+            [name]: phoneValue,
+          },
+        });
+      } else {
+        setPersonalInfo((prev) => ({ ...prev, [name]: value }));
+
+        if (!resumeInfo) return;
+
+        onUpdate({
+          ...resumeInfo,
+          personalInfo: {
+            ...resumeInfo.personalInfo,
+            [name]: value,
+          },
+        });
+      }
     },
-    [resumeInfo, onUpdate]
+    [resumeInfo, onUpdate, errors]
   );
 
   const handleSubmit = useCallback(
     async (e: { preventDefault: () => void }) => {
       e.preventDefault();
-      const thumbnail = await generateThumbnail();
-      const currentNo = resumeInfo?.currentPosition
-        ? resumeInfo.currentPosition + 1
-        : 1;
-      await mutateAsync(
-        {
-          currentPosition: currentNo,
-          thumbnail: thumbnail,
-          personalInfo: personalInfo,
-        },
-        {
-          onSuccess: () => {
-            toast({
-              title: "Success",
-              description: "Personal Information updated successfully",
-            });
-            handleNext();
-          },
-          onError: (error) => {
-            toast({
-              title: "Error",
-              description: "Failed to update personal information",
-              variant: "destructive",
-            });
-          },
+
+      // Validation
+      const newErrors: typeof errors = {};
+
+      // Validate required fields
+      requiredFields.forEach((field) => {
+        if (!personalInfo[field.key]) {
+          newErrors[field.key] = `${field.label} can not be left blank`;
         }
-      );
+      });
+
+      // Email validation
+      if (personalInfo.email && !validateEmail(personalInfo.email)) {
+        newErrors.email = "Invalid email address";
+      }
+
+      // Phone validation
+      if (personalInfo.phone && !validatePhone(personalInfo.phone)) {
+        newErrors.phone = "Invalid phone number";
+      }
+
+      // If there are errors, set them and prevent submission
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+      }
+
+      try {
+        const thumbnail = await generateThumbnail();
+        const currentNo = resumeInfo?.currentPosition
+          ? resumeInfo.currentPosition + 1
+          : 1;
+        await mutateAsync(
+          {
+            currentPosition: currentNo,
+            thumbnail: thumbnail,
+            personalInfo: personalInfo,
+          },
+          {
+            onSuccess: () => {
+              toast({
+                title: "Success",
+                description: "Personal Information updated successfully",
+              });
+              handleNext();
+            },
+            onError: (error) => {
+              toast({
+                title: "Error",
+                description: "Failed to update personal information",
+                variant: "destructive",
+              });
+            },
+          }
+        );
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred",
+          variant: "destructive",
+        });
+      }
     },
-    [personalInfo, resumeInfo]
+    [personalInfo, resumeInfo, handleNext, mutateAsync]
   );
 
   if (isLoading) {
@@ -114,67 +199,79 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">First Name</Label>
             <Input
               name="firstName"
-              required
               autoComplete="off"
               placeholder="Enter your first name"
               value={personalInfo.firstName || ""}
               onChange={handleChange}
             />
+            {errors.firstName && (
+              <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+            )}
           </div>
           <div>
             <Label className="text-sm">Last Name</Label>
             <Input
               name="lastName"
-              required
               autoComplete="off"
               placeholder="Enter your last name"
               value={personalInfo.lastName || ""}
               onChange={handleChange}
             />
+            {errors.lastName && (
+              <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+            )}
           </div>
           <div>
             <Label className="text-sm">Job Title</Label>
             <Input
               name="jobTitle"
-              required
               autoComplete="off"
               placeholder="Enter your current job title"
               value={personalInfo.jobTitle || ""}
               onChange={handleChange}
             />
+            {errors.jobTitle && (
+              <p className="text-red-500 text-xs mt-1">{errors.jobTitle}</p>
+            )}
           </div>
           <div>
             <Label className="text-sm">Phone Number</Label>
             <Input
               name="phone"
-              required
               autoComplete="off"
               placeholder="Enter your phone number"
               value={personalInfo.phone || ""}
               onChange={handleChange}
             />
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+            )}
           </div>
           <div className="col-span-2">
             <Label className="text-sm">Address</Label>
             <Input
               name="address"
-              required
               autoComplete="off"
               placeholder="Enter your full address"
               value={personalInfo.address || ""}
               onChange={handleChange}
             />
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+            )}
           </div>
           <div className="col-span-2">
             <Label className="text-sm">E-Mail Address</Label>
             <Input
               name="email"
-              required
               autoComplete="off"
               placeholder="Enter your email address"
               value={personalInfo.email || ""}
               onChange={handleChange}
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
           <div>
             <Label className="text-sm">LinkedIn Account</Label>

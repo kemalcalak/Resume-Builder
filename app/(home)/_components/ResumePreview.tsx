@@ -16,7 +16,7 @@ const ResumePreview = () => {
     <div
       id="resume-preview-id"
       className={cn(
-        "shadow-lg bg-white w-full flex-[1.02] h-full p-10 dark:border dark:bg-card dark:border-b-gray-800 dark:border-x-gray-800"
+        "shadow-lg bg-white w-full flex-[1.02] h-full p-5 dark:border dark:bg-card dark:border-b-gray-800 dark:border-x-gray-800"
       )}
     >
       {/* {Personal Info} */}
