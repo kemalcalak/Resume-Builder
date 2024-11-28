@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useResumeContext } from "@/context/resume-info-provider";
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -10,9 +10,8 @@ import ProjectsPreview from "./preview/ProjectsPreview";
 import CertificationsPreview from "./preview/CertificatesPreview";
 
 const ResumePreview = () => {
-  const { resumeInfo } = useResumeContext();
+  const { resumeInfo, isLoading } = useResumeContext();
 
-  const isLoading = false;
   return (
     <div
       id="resume-preview-id"

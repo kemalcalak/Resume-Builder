@@ -1,5 +1,6 @@
 "use client";
 
+import useGetDocument from "@/features/document/use-get-document-by-id";
 import { resumeData } from "@/lib/dummy";
 import { ResumeDataType } from "@/types/resume.type";
 import { useParams } from "next/navigation";
@@ -14,7 +15,11 @@ import {
 
 type ResumeContextType = {
   resumeInfo: ResumeDataType | undefined;
-  onupdate: (data: ResumeDataType) => void;
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  refetch: () => void;
+  onUpdate: (data: ResumeDataType) => void;
 };
 
 export const ResumeInfoContext = createContext<ResumeContextType | undefined>(
@@ -23,16 +28,18 @@ export const ResumeInfoContext = createContext<ResumeContextType | undefined>(
 
 export const ResumeInfoProvider: FC<{ children: ReactNode }> = ({children }) => {
   const param = useParams();
-  const documentId = param.documentId;
+  const documentId = param.documentId as string;
+
+  const {data,isSuccess,isLoading,isError,refetch } = useGetDocument(documentId);
   const [resumeInfo, setResumeInfo] = useState<ResumeDataType>();
   useEffect(() => {
-    setResumeInfo(resumeData);
-  }, []);
+    if(isSuccess) setResumeInfo(data?.data)
+  }, [isSuccess]);
   const onUpdate = (data: ResumeDataType) => {
     setResumeInfo(data);
   };
   return (
-    <ResumeInfoContext.Provider value={{ resumeInfo,onUpdate}}>
+    <ResumeInfoContext.Provider value={{ resumeInfo,isSuccess,isLoading, isError,refetch,onUpdate}}>
       {children}
     </ResumeInfoContext.Provider>
   );
@@ -41,7 +48,9 @@ export const ResumeInfoProvider: FC<{ children: ReactNode }> = ({children }) => 
 export const useResumeContext = () => {
   const context = useContext(ResumeInfoContext);
   if (!context) {
-    throw new Error("useResumeContext must be used within ResumeInfoProvider");
+    throw new Error(
+      "useCurrentUserContext must be used within a ResumeInfoProvider"
+    );
   }
-    return context;
+  return context;
 };
