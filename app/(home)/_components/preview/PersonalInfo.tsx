@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { INITIAL_THEME_COLOR } from "@/lib/helper";
 import { ResumeDataType } from "@/types/resume.type";
 import { Github, Home, Linkedin, Mail, Phone } from "lucide-react";
+import { FaMedium } from "react-icons/fa";
 import React, { FC } from "react";
 
 interface Propstype {
@@ -11,7 +12,41 @@ interface Propstype {
 }
 
 const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
+  const handleMediumClick = () => {
+    const medium = resumeInfo?.personalInfo?.medium;
+    if (medium) {
+      const fullUrl = `https://medium.com/@${medium}`;
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleWebsiteClick = () => {
+    const website = resumeInfo?.personalInfo?.website;
+    if (website) {
+      const fullUrl = `https://${website}`;
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleLinkedlnClick = () => {
+    const linkedInProfile = resumeInfo?.personalInfo?.linkedin;
+    if (linkedInProfile) {
+      const fullUrl = `https://www.linkedin.com/in/${linkedInProfile}`;
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleGithubClick = () => {
+    const githubProfile = resumeInfo?.personalInfo?.github;
+    if (githubProfile) {
+      const fullUrl = `https://github.com/${githubProfile}`;
+
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
+  
   if (isLoading) {
     return <SkeletonLoader />;
   }
@@ -37,33 +72,52 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
           <Phone size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
           {resumeInfo?.personalInfo?.phone || "Phone Number"}
         </h5>
-
-        {resumeInfo?.personalInfo?.linkedin && (
-          <h5 className="flex font-normal text-[12px]">
-            <Linkedin
-              size={14}
-              style={{ paddingRight: "2px", marginTop: "1px" }}
-            />
-            {resumeInfo?.personalInfo?.linkedin || "LinkedIn Profile"}
-          </h5>
-        )}
-        {resumeInfo?.personalInfo?.github && (
-          <h5 className="flex font-normal text-[12px]">
-            <Github
-              size={14}
-              style={{ paddingRight: "2px", marginTop: "2px" }}
-            />
-            {resumeInfo?.personalInfo?.github || "Github Profile"}
-          </h5>
-        )}
         <h5 className="flex font-normal text-[12px]">
           <Mail size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
           {resumeInfo?.personalInfo?.email || "Email Address"}
         </h5>
+        {resumeInfo?.personalInfo?.linkedin && (
+          <h5 className="font-normal text-[12px]">
+            <button onClick={handleLinkedlnClick} className="flex">
+              <Linkedin
+                size={14}
+                style={{ paddingRight: "2px", marginTop: "1px" }}
+              />
+              {resumeInfo?.personalInfo?.linkedin || "LinkedIn Profile"}
+            </button>
+          </h5>
+        )}
+        {resumeInfo?.personalInfo?.github && (
+          <h5 className="font-normal text-[12px]">
+            <button onClick={handleGithubClick} className="flex">
+              <Github
+                size={14}
+                style={{ paddingRight: "2px", marginTop: "2px" }}
+              />
+              {resumeInfo?.personalInfo?.github || "Github Profile"}
+            </button>
+          </h5>
+        )}
+        {resumeInfo?.personalInfo?.medium && (
+          <h5 className="font-normal text-[12px]">
+            <button onClick={handleMediumClick} className="flex">
+              <FaMedium
+                size={14}
+                style={{ paddingRight: "2px", marginTop: "2px" }}
+              />
+              {resumeInfo?.personalInfo?.medium || "Medium"}
+            </button>
+          </h5>
+        )}
         {resumeInfo?.personalInfo?.website && (
-          <h5 className="flex font-normal text-[12px]">
-            <Home size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
-            {resumeInfo?.personalInfo?.website || "Website"}
+          <h5 className="font-normal text-[12px]">
+            <button onClick={handleWebsiteClick} className="flex">
+              <Home
+                size={14}
+                style={{ paddingRight: "2px", marginTop: "2px" }}
+              />
+              {resumeInfo?.personalInfo?.website || "Website"}
+            </button>
           </h5>
         )}
       </div>
