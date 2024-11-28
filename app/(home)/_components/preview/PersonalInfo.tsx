@@ -33,42 +33,42 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.personalInfo?.address || "Address"}
       </p>
       <div className="flex justify-between items-center pt-3 ">
-        <h5 className="flex font-normal text-[13px]">
-          <Phone size={16} style={{ paddingRight: "2px", marginTop: "2px" }} />
+        <h5 className="flex font-normal text-[12px]">
+          <Phone size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
           {resumeInfo?.personalInfo?.phone || "Phone Number"}
         </h5>
 
         {resumeInfo?.personalInfo?.linkedin && (
-          <h5 className="flex font-normal text-[13px]">
+          <h5 className="flex font-normal text-[12px]">
             <Linkedin
-              size={16}
+              size={14}
               style={{ paddingRight: "2px", marginTop: "1px" }}
             />
             {resumeInfo?.personalInfo?.linkedin || "LinkedIn Profile"}
           </h5>
         )}
         {resumeInfo?.personalInfo?.github && (
-          <h5 className="flex font-normal text-[13px]">
+          <h5 className="flex font-normal text-[12px]">
             <Github
-              size={16}
+              size={14}
               style={{ paddingRight: "2px", marginTop: "2px" }}
             />
             {resumeInfo?.personalInfo?.github || "Github Profile"}
           </h5>
         )}
-        <h5 className="flex font-normal text-[13px]">
-          <Mail size={16} style={{ paddingRight: "2px", marginTop: "2px" }} />
+        <h5 className="flex font-normal text-[12px]">
+          <Mail size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
           {resumeInfo?.personalInfo?.email || "Email Address"}
         </h5>
         {resumeInfo?.personalInfo?.website && (
-          <h5 className="flex font-normal text-[13px]">
-            <Home size={16} style={{ paddingRight: "2px", marginTop: "2px" }} />
+          <h5 className="flex font-normal text-[12px]">
+            <Home size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
             {resumeInfo?.personalInfo?.website || "Website"}
           </h5>
         )}
       </div>
       <hr
-        className="border-[1.5px] my-2"
+        className="border-[1.5px] mb-2"
         style={{
           borderColor: themeColor,
         }}
