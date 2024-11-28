@@ -12,6 +12,13 @@ interface Propstype {
 }
 
 const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
+  const handleMailClick = () => {
+    const email = resumeInfo?.personalInfo?.email;
+    if (email) {
+      window.open(`mailto:${email}`, "_blank");
+    }
+  };
+
   const handleMediumClick = () => {
     const medium = resumeInfo?.personalInfo?.medium;
     if (medium) {
@@ -46,7 +53,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
   };
 
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
-  
+
   if (isLoading) {
     return <SkeletonLoader />;
   }
@@ -73,8 +80,10 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
           {resumeInfo?.personalInfo?.phone || "Phone Number"}
         </h5>
         <h5 className="flex font-normal text-[12px]">
-          <Mail size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
-          {resumeInfo?.personalInfo?.email || "Email Address"}
+          <button onClick={handleMailClick} className="flex">
+            <Mail size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
+            {resumeInfo?.personalInfo?.email || "Email Address"}
+          </button>
         </h5>
         {resumeInfo?.personalInfo?.linkedin && (
           <h5 className="font-normal text-[12px]">

@@ -177,16 +177,6 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             />
           </div>
           <div>
-            <Label className="text-sm">Website</Label>
-            <Input
-              name="website"
-              autoComplete="off"
-              placeholder="yourwebsite.com (optional)"
-              value={personalInfo.website || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
             <Label className="text-sm">LinkedIn Account</Label>
             <Input
               name="linkedin"
@@ -213,6 +203,16 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
               autoComplete="off"
               placeholder="medium.com/@username (optional)"
               value={personalInfo.medium || ""}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label className="text-sm">Website</Label>
+            <Input
+              name="website"
+              autoComplete="off"
+              placeholder="yourwebsite.com (optional)"
+              value={personalInfo.website || ""}
               onChange={handleChange}
             />
           </div>
