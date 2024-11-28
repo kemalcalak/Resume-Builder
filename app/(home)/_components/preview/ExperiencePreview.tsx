@@ -15,9 +15,9 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
     return <SkeletonLoader />;
   }
   return (
-    <div className="w-full my-5">
+    <div className="w-full my-3 mb-0 pb-0">
       <h5
-        className="text-center font-bold
+        className="text-start font-bold
       "
         style={{ color: themeColor }}
       >
@@ -25,7 +25,7 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
       </h5>
       <hr
         className="
-          border-[1.5px] mb-1
+          border-[1.5px] mb-1 mt-0 pt-0
           "
         style={{
           borderColor: themeColor,

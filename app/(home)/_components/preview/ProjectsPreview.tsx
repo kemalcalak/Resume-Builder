@@ -14,9 +14,9 @@ const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     return <SkeletonLoader />;
   }
   return (
-    <div className="w-full my-5">
+    <div className="w-full my-3 mb-0 pb-0">
       <h5
-        className="text-center font-bold
+        className="text-start font-bold
       "
         style={{ color: themeColor }}
       >
