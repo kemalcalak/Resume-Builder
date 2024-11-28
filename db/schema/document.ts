@@ -31,7 +31,7 @@ export const documentTable = pgTable("document", {
   currentPosition: integer("current_position").notNull().default(1),
   status: statusEnum("status").notNull().default("private"),
   authorName: varchar("author_name", { length: 255 }).notNull(),
-  authorEmail: varchar("author_email", { length: 255 }).notNull(),
+  authorEmail: varchar("author_email", { length: 255 }),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });

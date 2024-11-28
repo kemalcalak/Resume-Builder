@@ -1,0 +1,1 @@
+ALTER TABLE "document" ALTER COLUMN "author_email" DROP NOT NULL;
