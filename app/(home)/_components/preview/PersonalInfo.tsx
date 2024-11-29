@@ -119,7 +119,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         )}
       </div>
       <hr
-        className="border-[1.5px]"
+        className="border-[1.5px] mb-1"
         style={{
           borderColor: themeColor,
         }}

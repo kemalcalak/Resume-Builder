@@ -43,26 +43,29 @@ const validatePhone = (phone: string) => {
 };
 
 // Function to extract username from URLs
-const extractUsername = (url: string, platform: 'linkedin' | 'github' | 'medium') => {
-  if (!url) return '';
+const extractUsername = (
+  url: string,
+  platform: "linkedin" | "github" | "medium"
+) => {
+  if (!url) return "";
 
   try {
     // Remove trailing slashes
-    url = url.replace(/\/+$/, '');
+    url = url.replace(/\/+$/, "");
 
     switch (platform) {
-      case 'linkedin':
+      case "linkedin":
         const linkedinMatch = url.match(/\/in\/([^\/]+)$/i);
         return linkedinMatch ? linkedinMatch[1] : url;
-      
-      case 'github':
+
+      case "github":
         const githubMatch = url.match(/\/([^\/]+)$/);
         return githubMatch ? githubMatch[1] : url;
-      
-      case 'medium':
+
+      case "medium":
         const mediumMatch = url.match(/\/@([^\/]+)$/);
         return mediumMatch ? mediumMatch[1] : url;
-      
+
       default:
         return url;
     }
@@ -113,20 +116,20 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
       // Special handling for specific fields
       let processedValue = value;
       switch (name) {
-        case 'phone':
+        case "phone":
           // Allow only digits, spaces, +, -, (), .
           processedValue = value.replace(/[^\d\s+\-().]/g, "");
           break;
-        case 'linkedin':
-          processedValue = extractUsername(value, 'linkedin');
+        case "linkedin":
+          processedValue = extractUsername(value, "linkedin");
           break;
-        case 'github':
-          processedValue = extractUsername(value, 'github');
+        case "github":
+          processedValue = extractUsername(value, "github");
           break;
-        case 'medium':
-          processedValue = extractUsername(value, 'medium');
+        case "medium":
+          processedValue = extractUsername(value, "medium");
           break;
-        case 'website':
+        case "website":
           const websiteMatch = value.match(/^(https?:\/\/)?(www\.)?([^\/]+)/i);
           processedValue = websiteMatch ? websiteMatch[3] : value;
           break;
@@ -224,6 +227,10 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
     <div>
       <div className="w-full">
         <h2 className="font-bold text-lg">Personal Information</h2>
+        <p className="text-sm text-muted-foreground">
+          Enter your contact information and professional accounts to complete
+          your profile
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 mt-5 gap-3">
