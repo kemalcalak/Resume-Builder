@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { INITIAL_THEME_COLOR } from "@/lib/helper";
 import { ResumeDataType } from "@/types/resume.type";
 import { Github, Home, Linkedin, Mail, Phone } from "lucide-react";
-import { FaMedium } from "react-icons/fa";
+import { FaMediumM } from "react-icons/fa";
 import React, { FC } from "react";
 
 interface Propstype {
@@ -104,7 +104,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.personalInfo?.medium && (
           <h5 className="font-normal text-[9px] sm:text-[13px]">
             <button onClick={handleMediumClick} className="flex items-center">
-              <FaMedium size={10} />
+              <FaMediumM size={10} />
               {resumeInfo?.personalInfo?.medium || "Medium"}
             </button>
           </h5>

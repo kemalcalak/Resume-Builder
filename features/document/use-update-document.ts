@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 import { useParams } from "next/navigation";
 
-type ResponseType = InferResponseType<
+type ApiResponse = InferResponseType<
   (typeof api.document.update)[":documentId"]["$patch"]
 >;
 type RequestType = InferRequestType<
@@ -19,7 +19,7 @@ const useUpdateDocument = () => {
 
   const documentId = param.documentId as string;
 
-  const mutation = useMutation<ResponseType, Error, RequestType>({
+  const mutation = useMutation<ApiResponse, Error, RequestType>({
     mutationFn: async (json) => {
       const response = await api.document.update[":documentId"]["$patch"]({
         param: {
@@ -27,7 +27,7 @@ const useUpdateDocument = () => {
         },
         json,
       });
-      return await response.json();
+      return response;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

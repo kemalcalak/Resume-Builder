@@ -128,7 +128,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
         return;
       }
       setLoading(true);
-      const PROMPT = prompt.replace("{jobTitle}", jobTitle);
+      const PROMPT = prompt.replaceAll("{jobTitle}", jobTitle);
       const result = await AIChatSession.sendMessage(PROMPT);
       const responseText = await result.response.text();
       const generatedSummary = JSON?.parse(responseText);
