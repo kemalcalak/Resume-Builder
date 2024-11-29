@@ -24,7 +24,7 @@ const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         Projects
       </h5>
       <hr
-        className="border-[1.5px] mb-2 mt-1"
+        className="border-[1.5px] mb-2"
         style={{
           borderColor: themeColor,
         }}
