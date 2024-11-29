@@ -42,6 +42,35 @@ const validatePhone = (phone: string) => {
   return phoneRegex.test(phone);
 };
 
+// Function to extract username from URLs
+const extractUsername = (url: string, platform: 'linkedin' | 'github' | 'medium') => {
+  if (!url) return '';
+
+  try {
+    // Remove trailing slashes
+    url = url.replace(/\/+$/, '');
+
+    switch (platform) {
+      case 'linkedin':
+        const linkedinMatch = url.match(/\/in\/([^\/]+)$/i);
+        return linkedinMatch ? linkedinMatch[1] : url;
+      
+      case 'github':
+        const githubMatch = url.match(/\/([^\/]+)$/);
+        return githubMatch ? githubMatch[1] : url;
+      
+      case 'medium':
+        const mediumMatch = url.match(/\/@([^\/]+)$/);
+        return mediumMatch ? mediumMatch[1] : url;
+      
+      default:
+        return url;
+    }
+  } catch (error) {
+    return url;
+  }
+};
+
 const PersonalInfoForm = (props: { handleNext: () => void }) => {
   const { handleNext } = props;
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
@@ -51,9 +80,9 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
 
   // Define required fields with their display labels
   const requiredFields = [
-    { key: "firstName", label: "First Name" },
-    { key: "lastName", label: "Last Name" },
-    { key: "jobTitle", label: "Job Title" },
+    { key: "firstName", label: "First name" },
+    { key: "lastName", label: "Last name" },
+    { key: "jobTitle", label: "Job title" },
     { key: "phone", label: "Phone number" },
     { key: "email", label: "E-Mail address" },
     { key: "address", label: "Address" },
@@ -81,35 +110,39 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
         setErrors((prev) => ({ ...prev, [name]: undefined }));
       }
 
-      // Special handling for phone to prevent alphabet characters
-      if (name === "phone") {
-        // Allow only digits, spaces, +, -, (), .
-        const phoneValue = value.replace(/[^\d\s+\-().]/g, "");
-
-        setPersonalInfo((prev) => ({ ...prev, [name]: phoneValue }));
-
-        if (!resumeInfo) return;
-
-        onUpdate({
-          ...resumeInfo,
-          personalInfo: {
-            ...resumeInfo.personalInfo,
-            [name]: phoneValue,
-          },
-        });
-      } else {
-        setPersonalInfo((prev) => ({ ...prev, [name]: value }));
-
-        if (!resumeInfo) return;
-
-        onUpdate({
-          ...resumeInfo,
-          personalInfo: {
-            ...resumeInfo.personalInfo,
-            [name]: value,
-          },
-        });
+      // Special handling for specific fields
+      let processedValue = value;
+      switch (name) {
+        case 'phone':
+          // Allow only digits, spaces, +, -, (), .
+          processedValue = value.replace(/[^\d\s+\-().]/g, "");
+          break;
+        case 'linkedin':
+          processedValue = extractUsername(value, 'linkedin');
+          break;
+        case 'github':
+          processedValue = extractUsername(value, 'github');
+          break;
+        case 'medium':
+          processedValue = extractUsername(value, 'medium');
+          break;
+        case 'website':
+          const websiteMatch = value.match(/^(https?:\/\/)?(www\.)?([^\/]+)/i);
+          processedValue = websiteMatch ? websiteMatch[3] : value;
+          break;
       }
+
+      setPersonalInfo((prev) => ({ ...prev, [name]: processedValue }));
+
+      if (!resumeInfo) return;
+
+      onUpdate({
+        ...resumeInfo,
+        personalInfo: {
+          ...resumeInfo.personalInfo,
+          [name]: processedValue,
+        },
+      });
     },
     [resumeInfo, onUpdate, errors]
   );
@@ -191,10 +224,9 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
     <div>
       <div className="w-full">
         <h2 className="font-bold text-lg">Personal Information</h2>
-        <p className="text-sm">Get Started with personal information</p>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 mt-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 mt-5 gap-3">
           <div>
             <Label className="text-sm">First Name</Label>
             <Input
@@ -239,7 +271,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Input
               name="phone"
               autoComplete="off"
-              placeholder="Enter your phone number"
+              placeholder="Enter phone number (+, -, ())"
               value={personalInfo.phone || ""}
               onChange={handleChange}
             />
@@ -247,7 +279,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
               <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
             )}
           </div>
-          <div className="col-span-2">
+          <div className="sm:col-span-2">
             <Label className="text-sm">Address</Label>
             <Input
               name="address"
@@ -260,7 +292,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
               <p className="text-red-500 text-xs mt-1">{errors.address}</p>
             )}
           </div>
-          <div className="col-span-2">
+          <div className="sm:col-span-2">
             <Label className="text-sm">E-Mail Address</Label>
             <Input
               name="email"
@@ -314,14 +346,15 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             />
           </div>
         </div>
-        <Button
-          className="mt-4"
-          type="submit"
-          disabled={isPending || resumeInfo?.status === "archived"}
-        >
-          {isPending && <Loader size="15px" className="animate-spin" />}
-          Save Changes
-        </Button>
+        <div className="flex justify-end mt-4">
+          <Button
+            type="submit"
+            disabled={isPending || resumeInfo?.status === "archived"}
+          >
+            {isPending && <Loader size="15px" className="animate-spin mr-2" />}
+            Save Changes
+          </Button>
+        </div>
       </form>
     </div>
   );

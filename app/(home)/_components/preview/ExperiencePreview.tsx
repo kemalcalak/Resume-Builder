@@ -14,50 +14,50 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   if (isLoading) {
     return <SkeletonLoader />;
   }
+
   return (
-    <div className="w-full my-3 mb-0 pb-0">
+    <div className="w-full pb-3">
       <h5
-        className="text-start font-bold
-      "
+        className="text-start font-bold text-base mobile:text-sm"
         style={{ color: themeColor }}
       >
-        Professional Experience
+        Experience
       </h5>
       <hr
-        className="
-          border-[1.5px] mb-1 mt-0 pt-0
-          "
+        className="border-[1.5px] mb-2 mt-0"
         style={{
           borderColor: themeColor,
         }}
       />
 
-      <div className="flex flex-col gap-2 min-h-9">
+      <div className="flex flex-col gap-4 mobile:gap-3 min-h-9">
         {resumeInfo?.experiences?.map((experience, index) => (
-          <div key={index}>
-            <h5 className="text-[15px] font-bold" style={{ color: themeColor }}>
+          <div 
+            key={index} 
+            className="bg-white shadow-sm rounded-lg p-3 mobile:p-2 mobile:rounded-md"
+          >
+            <h5 
+              className="text-[15px] mobile:text-[14px] font-bold mb-1" 
+              style={{ color: themeColor }}
+            >
               {experience?.title}
             </h5>
-            <div
-              className="flex items-start 
-            justify-between mb-2"
-            >
-              <h5 className="text-[13px]">
+            <div className="flex flex-col mobile:flex-row mobile:items-center mobile:justify-between mb-2">
+              <h5 className="text-[13px] mobile:text-[12px] text-gray-700 mb-1 mobile:mb-0">
                 {experience?.companyName}
                 {experience?.companyName && experience?.city && ", "}
                 {experience?.city}
                 {experience?.city && experience?.state && ", "}
                 {experience?.state}
               </h5>
-              <span className="text-[13px]">
+              <span className="text-[13px] mobile:text-[12px] text-gray-600">
                 {experience?.startDate}
                 {experience?.startDate && " - "}
                 {experience?.currentlyWorking ? "Present" : experience?.endDate}
               </span>
             </div>
             <div
-              style={{ fontSize: "13px" }}
-              className="exp-preview leading-[14.6px]"
+              className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 exp-preview"
               dangerouslySetInnerHTML={{
                 __html: experience?.workSummary || "",
               }}

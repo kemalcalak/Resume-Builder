@@ -15,42 +15,49 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
     return <SkeletonLoader />;
   }
   return (
-    <div className="w-full my-3 mb-0 pb-0">
+    <div className="w-full pb-3">
       <h5
-        className="text-start font-bold
-      "
+        className="text-start font-bold text-base mobile:text-sm"
         style={{ color: themeColor }}
       >
         Education
       </h5>
       <hr
-        className="
-          border-[1.5px] mb-1
-          "
+        className="border-[1.5px] mb-2 mt-0"
         style={{
           borderColor: themeColor,
         }}
       />
 
-      <div className="flex flex-col gap-2 min-h-9">
+      <div className="flex flex-col gap-4 mobile:gap-3 min-h-9">
         {resumeInfo?.educations?.map((education, index) => (
-          <div key={index}>
-            <h5 className="text-sm font-bold" style={{ color: themeColor }}>
+          <div 
+            key={index} 
+            className="bg-white shadow-sm rounded-lg p-3 mobile:p-2 mobile:rounded-md"
+          >
+            <h5 
+              className="text-[15px] mobile:text-[14px] font-bold mb-1" 
+              style={{ color: themeColor }}
+            >
               {education?.universityName}
             </h5>
-            <div className="flex items-start justify-between">
-              <h5 className="text-[13px]">
+            <div className="flex flex-col mobile:flex-row mobile:items-center mobile:justify-between mb-2">
+              <h5 className="text-[13px] mobile:text-[12px] text-gray-700 mb-1 mobile:mb-0">
                 {education?.degree}
                 {education?.degree && education?.major && " in "}
                 {education?.major}
               </h5>
-              <span className="text-[13px]">
+              <span className="text-[13px] mobile:text-[12px] text-gray-600">
                 {education?.startDate}
                 {education?.startDate && " - "}
                 {education?.endDate}
               </span>
             </div>
-            <p className="text-[13px] my-2">{education?.description}</p>
+            {education?.description && (
+              <p className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 mt-2">
+                {education?.description}
+              </p>
+            )}
           </div>
         ))}
       </div>

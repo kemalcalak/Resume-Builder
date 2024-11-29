@@ -47,7 +47,6 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     const githubProfile = resumeInfo?.personalInfo?.github;
     if (githubProfile) {
       const fullUrl = `https://github.com/${githubProfile}`;
-
       window.open(fullUrl, "_blank", "noopener,noreferrer");
     }
   };
@@ -57,10 +56,11 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
   if (isLoading) {
     return <SkeletonLoader />;
   }
+
   return (
-    <div className="w-full min-h-14">
+    <div className="w-full min-h-14 sm:px-0">
       <h2
-        className="font-bold text-xl text-center "
+        className="font-bold text-lg sm:text-xl text-center"
         style={{
           color: themeColor,
         }}
@@ -68,70 +68,58 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.personalInfo?.firstName || "First Name"}{" "}
         {resumeInfo?.personalInfo?.lastName || "Last Name"}
       </h2>
-      <h5 className="text-center text-sm font-medium">
+      <h5 className="text-center text-xs sm:text-sm font-medium">
         {resumeInfo?.personalInfo?.jobTitle || "Job Title"}
       </h5>
-      <p className="text-center font-normal text-[13px]">
+      <p className="text-center font-normal text-[11px] sm:text-[13px]">
         {resumeInfo?.personalInfo?.address || "Address"}
       </p>
-      <div className="flex justify-between items-center pt-3 ">
-        <h5 className="flex font-normal text-[12px]">
-          <Phone size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
+      <div className="flex justify-between items-center pt-3">
+        <h5 className="flex font-normal text-[9px] sm:text-[12px] items-center">
+          <Phone size={10}  />
           {resumeInfo?.personalInfo?.phone || "Phone Number"}
         </h5>
-        <h5 className="flex font-normal text-[12px]">
-          <button onClick={handleMailClick} className="flex">
-            <Mail size={14} style={{ paddingRight: "2px", marginTop: "2px" }} />
+        <h5 className="flex font-normal text-[9px] sm:text-[13px] items-center">
+          <button onClick={handleMailClick} className="flex items-center">
+            <Mail size={10}  />
             {resumeInfo?.personalInfo?.email || "Email Address"}
           </button>
         </h5>
         {resumeInfo?.personalInfo?.linkedin && (
-          <h5 className="font-normal text-[12px]">
-            <button onClick={handleLinkedlnClick} className="flex">
-              <Linkedin
-                size={14}
-                style={{ paddingRight: "2px", marginTop: "1px" }}
-              />
-              {resumeInfo?.personalInfo?.linkedin || "LinkedIn Profile"}
+          <h5 className="font-normal text-[9px] sm:text-[13px]">
+            <button onClick={handleLinkedlnClick} className="flex items-center">
+              <Linkedin size={10} />
+              {resumeInfo?.personalInfo?.linkedin || "LinkedIn"}
             </button>
           </h5>
         )}
         {resumeInfo?.personalInfo?.github && (
-          <h5 className="font-normal text-[12px]">
-            <button onClick={handleGithubClick} className="flex">
-              <Github
-                size={14}
-                style={{ paddingRight: "2px", marginTop: "2px" }}
-              />
-              {resumeInfo?.personalInfo?.github || "Github Profile"}
+          <h5 className="font-normal text-[9px] sm:text-[13px]">
+            <button onClick={handleGithubClick} className="flex items-center">
+              <Github size={10} />
+              {resumeInfo?.personalInfo?.github || "Github"}
             </button>
           </h5>
         )}
         {resumeInfo?.personalInfo?.medium && (
-          <h5 className="font-normal text-[12px]">
-            <button onClick={handleMediumClick} className="flex">
-              <FaMedium
-                size={14}
-                style={{ paddingRight: "2px", marginTop: "2px" }}
-              />
+          <h5 className="font-normal text-[9px] sm:text-[13px]">
+            <button onClick={handleMediumClick} className="flex items-center">
+              <FaMedium size={10} />
               {resumeInfo?.personalInfo?.medium || "Medium"}
             </button>
           </h5>
         )}
         {resumeInfo?.personalInfo?.website && (
-          <h5 className="font-normal text-[12px]">
-            <button onClick={handleWebsiteClick} className="flex">
-              <Home
-                size={14}
-                style={{ paddingRight: "2px", marginTop: "2px" }}
-              />
+          <h5 className="font-normal text-[9px] sm:text-[13px]">
+            <button onClick={handleWebsiteClick} className="flex items-center">
+              <Home size={10} />
               {resumeInfo?.personalInfo?.website || "Website"}
             </button>
           </h5>
         )}
       </div>
       <hr
-        className="border-[1.5px] mb-2"
+        className="border-[1.5px]"
         style={{
           borderColor: themeColor,
         }}
@@ -142,13 +130,13 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
 
 const SkeletonLoader = () => {
   return (
-    <div className="w-full min-h-14">
+    <div className="w-full min-h-14 px-4 sm:px-0">
       <Skeleton className="h-6 w-1/2 mx-auto mb-2" />
-      <Skeleton className="h-6 w-1/4 mx-auto mb-2" />
-      <Skeleton className="h-6 w-1/3 mx-auto mb-2" />
-      <div className="flex justify-between pt-3">
-        <Skeleton className="h-3 w-1/4 " />
-        <Skeleton className="h-3 w-1/4 " />
+      <Skeleton className="h-4 w-1/4 mx-auto mb-2" />
+      <Skeleton className="h-4 w-1/3 mx-auto mb-2" />
+      <div className="flex flex-col sm:flex-row justify-between pt-3 space-y-2 sm:space-y-0">
+        <Skeleton className="h-3 w-1/4" />
+        <Skeleton className="h-3 w-1/4" />
       </div>
       <Skeleton className="h-[1.5px] w-full my-2" />
     </div>
