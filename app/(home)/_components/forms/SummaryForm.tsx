@@ -179,7 +179,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
       {!showSuggestions ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label>Your Summary</Label>
+            <Label>Your Summary <span className="text-red-500">*</span></Label>
             <Button
               type="button"
               variant="outline"

@@ -235,7 +235,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 mt-5 gap-3">
           <div>
-            <Label className="text-sm">First Name</Label>
+            <Label className="text-sm">First Name <span className="text-red-500">*</span></Label>
             <Input
               name="firstName"
               autoComplete="off"
@@ -248,7 +248,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div>
-            <Label className="text-sm">Last Name</Label>
+            <Label className="text-sm">Last Name <span className="text-red-500">*</span></Label>
             <Input
               name="lastName"
               autoComplete="off"
@@ -261,7 +261,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div>
-            <Label className="text-sm">Job Title</Label>
+            <Label className="text-sm">Job Title <span className="text-red-500">*</span></Label>
             <Input
               name="jobTitle"
               autoComplete="off"
@@ -274,7 +274,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div>
-            <Label className="text-sm">Phone Number</Label>
+            <Label className="text-sm">Phone Number <span className="text-red-500">*</span></Label>
             <Input
               name="phone"
               autoComplete="off"
@@ -287,7 +287,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div className="sm:col-span-2">
-            <Label className="text-sm">Address</Label>
+            <Label className="text-sm">Address <span className="text-red-500">*</span></Label>
             <Input
               name="address"
               autoComplete="off"
@@ -300,7 +300,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div className="sm:col-span-2">
-            <Label className="text-sm">E-Mail Address</Label>
+            <Label className="text-sm">E-Mail Address <span className="text-red-500">*</span></Label>
             <Input
               name="email"
               autoComplete="off"
