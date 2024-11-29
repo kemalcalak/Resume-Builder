@@ -12,9 +12,9 @@ import { Loader, Sparkles, X } from "lucide-react";
 import React, { useCallback, useState } from "react";
 
 interface GeneratesSummaryType {
-  fresher: string;
+  junior: string;
   mid: string;
-  experienced: string;
+  senior: string;
 }
 
 interface FormErrors {
@@ -31,9 +31,9 @@ I want a summary that:
 
 Please respond in this exact JSON format:
 {
-  "fresher": "Energetic tech enthusiast with passion for [specific technologies], eager to contribute innovative solutions.",
+  "junior": "Energetic tech enthusiast with passion for [specific technologies], eager to contribute innovative solutions.",
   "mid": "Skilled technology professional delivering impactful projects, combining technical expertise with collaborative problem-solving.",
-  "experienced": "Strategic technology leader driving innovation, mentoring teams, and delivering enterprise-level solutions."
+  "senior": "Strategic technology leader driving innovation, mentoring teams, and delivering enterprise-level solutions."
 }
 
 Tailored specifically to a {jobTitle} role.`;
