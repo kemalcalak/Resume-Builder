@@ -231,8 +231,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
       <div className="w-full">
         <h2 className="font-bold text-lg">Personal Information</h2>
         <p className="text-sm text-muted-foreground">
-          Enter your contact information and professional accounts to complete
-          your profile
+          Complete your professional profile with your contact details
         </p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -241,7 +240,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">First Name <span className="text-red-500">*</span></Label>
             <Input
               name="firstName"
-              autoComplete="off"
+              autoComplete="given-name"
               placeholder="Enter your first name"
               value={personalInfo.firstName || ""}
               onChange={handleChange}
@@ -254,7 +253,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">Last Name <span className="text-red-500">*</span></Label>
             <Input
               name="lastName"
-              autoComplete="off"
+              autoComplete="family-name"
               placeholder="Enter your last name"
               value={personalInfo.lastName || ""}
               onChange={handleChange}
@@ -267,8 +266,8 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">Job Title <span className="text-red-500">*</span></Label>
             <Input
               name="jobTitle"
-              autoComplete="off"
-              placeholder="Enter your current job title"
+              autoComplete="organization-title"
+              placeholder="Enter your current professional title"
               value={personalInfo.jobTitle || ""}
               onChange={handleChange}
             />
@@ -280,10 +279,11 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">Phone Number <span className="text-red-500">*</span></Label>
             <Input
               name="phone"
-              autoComplete="off"
-              placeholder="Enter phone number (+, -, ())"
+              autoComplete="tel"
+              placeholder="Enter your contact number"
               value={personalInfo.phone || ""}
               onChange={handleChange}
+              maxLength={18}
             />
             {errors.phone && (
               <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
@@ -293,8 +293,8 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             <Label className="text-sm">Address <span className="text-red-500">*</span></Label>
             <Input
               name="address"
-              autoComplete="off"
-              placeholder="Enter your full address"
+              autoComplete="street-address"
+              placeholder="Enter your complete residential address"
               value={personalInfo.address || ""}
               onChange={handleChange}
             />
@@ -303,11 +303,11 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div className="sm:col-span-2">
-            <Label className="text-sm">E-Mail Address <span className="text-red-500">*</span></Label>
+            <Label className="text-sm">Email Address <span className="text-red-500">*</span></Label>
             <Input
               name="email"
-              autoComplete="off"
-              placeholder="Enter your email address"
+              autoComplete="email"
+              placeholder="Enter your professional email address"
               value={personalInfo.email || ""}
               onChange={handleChange}
             />
@@ -316,41 +316,41 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
             )}
           </div>
           <div>
-            <Label className="text-sm">LinkedIn Account</Label>
+            <Label className="text-sm">LinkedIn Profile</Label>
             <Input
               name="linkedin"
-              autoComplete="off"
-              placeholder="in/yourprofile (optional)"
+              autoComplete="url"
+              placeholder="Enter your LinkedIn profile username"
               value={personalInfo.linkedin || ""}
               onChange={handleChange}
             />
           </div>
           <div>
-            <Label className="text-sm">GitHub Account</Label>
+            <Label className="text-sm">GitHub Profile</Label>
             <Input
               name="github"
-              autoComplete="off"
-              placeholder="github.com/username (optional)"
+              autoComplete="url"
+              placeholder="Enter your GitHub username"
               value={personalInfo.github || ""}
               onChange={handleChange}
             />
           </div>
           <div>
-            <Label className="text-sm">Medium Account</Label>
+            <Label className="text-sm">Medium Profile</Label>
             <Input
               name="medium"
-              autoComplete="off"
-              placeholder="medium.com/@username (optional)"
+              autoComplete="url"
+              placeholder="Enter your Medium username"
               value={personalInfo.medium || ""}
               onChange={handleChange}
             />
           </div>
           <div>
-            <Label className="text-sm">Website</Label>
+            <Label className="text-sm">Personal Website</Label>
             <Input
               name="website"
-              autoComplete="off"
-              placeholder="yourwebsite.com (optional)"
+              autoComplete="url"
+              placeholder="Enter your personal website"
               value={personalInfo.website || ""}
               onChange={handleChange}
             />

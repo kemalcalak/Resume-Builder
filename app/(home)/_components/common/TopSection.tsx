@@ -2,10 +2,47 @@
 import { useResumeContext } from "@/context/resume-info-provider";
 import { AlertCircle } from "lucide-react";
 import ResumeTitle from "./ResumeTitle";
-import React from "react";
+import React, { useCallback } from "react";
+import useUpdateDocument from "@/features/document/use-update-document";
+import { toast } from "@/hooks/use-toast";
 
 const TopSection = () => {
-  const { resumeInfo } = useResumeContext();
+  const { resumeInfo, isLoading, onUpdate } = useResumeContext();
+  const { mutateAsync, isPending } = useUpdateDocument();
+  const handleTitle = useCallback(
+    (title: string) => {
+      if (title === "Untitled Resume" && !title) return;
+
+      if (resumeInfo) {
+        onUpdate({
+          ...resumeInfo,
+          title: title,
+        });
+      }
+
+      mutateAsync(
+        {
+          title: title,
+        },
+        {
+          onSuccess: () => {
+            toast({
+              title: "Success",
+              description: "Title updated successfully",
+            });
+          },
+          onError: () => {
+            toast({
+              title: "Error",
+              description: "Failed to update the title",
+              variant: "destructive",
+            });
+          },
+        }
+      );
+    },
+    [resumeInfo, onUpdate]
+  );
   return (
     <>
       {resumeInfo?.status === "archived" && (
@@ -17,10 +54,10 @@ const TopSection = () => {
       <div className="w-full flex items-center justify-between border-b pb-3 z-50">
         <div className="flex items-center gap-2 ">
           <ResumeTitle
-            isLoading={false}
+            isLoading={isLoading || isPending}
             initialTitle={resumeInfo?.title || ""}
             status={resumeInfo?.status}
-            onSave={(value)=>console.log(value)}
+            onSave={(value) => handleTitle(value)}
           />
         </div>
         <div className="flex items-center gap-2">

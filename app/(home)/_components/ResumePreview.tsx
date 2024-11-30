@@ -27,11 +27,11 @@ const ResumePreview = () => {
       {/* {Professional Experience} */}
       <ExperiencePreview isLoading={isLoading} resumeInfo={resumeInfo} />
 
-      {/* {Educational Info} */}
-      <EducationPreview isLoading={isLoading} resumeInfo={resumeInfo} />
-
       {/* {Projects} */}
       <ProjectsPreview isLoading={isLoading} resumeInfo={resumeInfo} />
+
+      {/* {Educational Info} */}
+      <EducationPreview isLoading={isLoading} resumeInfo={resumeInfo} />
 
       {/* {Certifications} */}
       <CertificationsPreview isLoading={isLoading} resumeInfo={resumeInfo} />
