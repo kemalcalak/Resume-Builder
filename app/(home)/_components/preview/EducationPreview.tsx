@@ -10,6 +10,25 @@ interface PropsType {
 
 const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+  };
 
   if (isLoading) {
     return <SkeletonLoader />;
@@ -33,7 +52,6 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.educations?.map((education, index) => (
           <div 
             key={index} 
-            className="bg-white shadow-sm rounded-lg p-3 mobile:p-2 mobile:rounded-md"
           >
             <h5 
               className="text-[15px] mobile:text-[14px] font-bold mb-1" 
@@ -41,20 +59,22 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
             >
               {education?.universityName}
             </h5>
-            <div className="flex flex-col mobile:flex-row mobile:items-center mobile:justify-between mb-2">
-              <h5 className="text-[13px] mobile:text-[12px] text-gray-700 mb-1 mobile:mb-0">
+            <div className="flex justify-between">
+              <h5 className="text-[13px] mobile:text-[12px] text-gray-700  mobile:mb-0">
                 {education?.degree}
                 {education?.degree && education?.major && " in "}
                 {education?.major}
               </h5>
               <span className="text-[13px] mobile:text-[12px] text-gray-600">
-                {education?.startDate}
-                {education?.startDate && " - "}
-                {education?.endDate}
+              <span className="text-[13px] text-gray-600">
+                  {formatDate(education?.startDate)}
+                  {education?.startDate && " - "}
+                  {formatDate(education?.endDate)}
+                </span>
               </span>
             </div>
             {education?.description && (
-              <p className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 mt-2">
+              <p className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 m">
                 {education?.description}
               </p>
             )}

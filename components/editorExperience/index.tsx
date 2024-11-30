@@ -50,13 +50,10 @@ const RichTextEditorExperience = (props: {
       const PROMPT = prompt.replace("{jobTitle}", jobTitle);
       const result = await AIChatSession.sendMessage(PROMPT);
       const responseText = await result.response.text();
-      console.log(responseText);
 
       const validJsonArray = JSON.parse(responseText);
-      console.log(validJsonArray?.bulletPoints);
       if (validJsonArray?.bulletPoints) {
         const validJsonArrayBullet = validJsonArray?.bulletPoints;
-        console.log(validJsonArrayBullet);
         setValue(validJsonArrayBullet);
         onEditorChange(validJsonArrayBullet);
       } else {

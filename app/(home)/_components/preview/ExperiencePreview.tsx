@@ -11,12 +11,22 @@ interface PropsType {
 const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
 
-  const formatDate = (dateString:string|null) => {
+  const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return "";
     const date = new Date(dateString);
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     return `${months[date.getMonth()]} ${date.getFullYear()}`;
   };
@@ -71,7 +81,7 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
               </span>
             </div>
             <div
-              className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 exp-preview pb-1"
+              className="text-[13px] mobile:text-[12px] leading-tight exp-preview pb-1"
               dangerouslySetInnerHTML={{
                 __html: experience?.workSummary || "",
               }}
