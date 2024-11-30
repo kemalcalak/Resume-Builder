@@ -61,7 +61,6 @@ const RichTextEditorProject = (props: {
         throw new Error("Failed to generate summary");
       }
     } catch (error) {
-      console.log(error);
       toast({
         title: "Failed to generate summary",
         variant: "destructive",

@@ -60,7 +60,6 @@ const RichTextEditorEducation = (props: {
         throw new Error("Failed to generate description");
       }
     } catch (error) {
-      console.log(error);
       toast({
         title: "Failed to generate description",
         variant: "destructive",

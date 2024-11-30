@@ -9,7 +9,6 @@ interface Propstype {
 }
 
 const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
-  console.log(resumeInfo?.projects);
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
   
   if (isLoading) {

@@ -5,6 +5,7 @@ import ResumeTitle from "./ResumeTitle";
 import React, { useCallback } from "react";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { toast } from "@/hooks/use-toast";
+import ThemeColor from "./ThemeColor";
 
 const TopSection = () => {
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
@@ -62,6 +63,7 @@ const TopSection = () => {
         </div>
         <div className="flex items-center gap-2">
           {/* {ThemeColor} */}
+          <ThemeColor />
 
           {/* Preview Modal */}
 

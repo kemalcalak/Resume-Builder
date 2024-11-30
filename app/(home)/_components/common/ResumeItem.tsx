@@ -25,7 +25,7 @@ const ResumeItem: FC<PropType> = ({
 
   const docDate = useMemo(() => {
     if (!updatedAt) return null;
-    const formattedDate = format(updatedAt, "MMM dd,yyyy");
+    const formattedDate = format(updatedAt, "dd MMM yyyy");
     return formattedDate;
   }, [updatedAt]);
 
@@ -45,7 +45,7 @@ const ResumeItem: FC<PropType> = ({
         shadow-primary
         "
       onClick={gotoDoc}
-      style={{ borderColor: themeColor || "" }}
+      style={{ borderColor: "#e11d48" }}
     >
       <div
         className="flex flex-col w-full 
