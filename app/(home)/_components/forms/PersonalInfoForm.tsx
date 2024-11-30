@@ -175,6 +175,11 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
       // If there are errors, set them and prevent submission
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields correctly",
+          variant: "destructive",
+        });
         return;
       }
 

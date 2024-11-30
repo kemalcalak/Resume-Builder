@@ -4,14 +4,38 @@ import { Button } from "@/components/ui/button";
 import { Loader, Plus, X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { generateThumbnail } from "@/lib/helper";
 import { toast } from "@/hooks/use-toast";
-import RichTextEditorEduation from "@/components/editorEducation";
 import RichTextEditorEducation from "@/components/editorEducation";
 
-const initialState = {
+// Define an interface for validation errors
+interface ValidationErrors {
+  universityName?: string;
+  degree?: string;
+  major?: string;
+  startDate?: string;
+  endDate?: string;
+  description?: string;
+}
+
+// Create a type that extracts only the keys we want to validate
+type ValidatableEducationKey = keyof ValidationErrors;
+
+// Define a type for education entry with more explicit typing
+interface EducationEntry {
+  id?: number;
+  docId?: number | null;
+  universityName: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  degree: string | null;
+  major: string | null;
+  description: string | null;
+  errors: ValidationErrors;
+}
+
+const initialState: Omit<EducationEntry, 'errors'> = {
   id: undefined,
   docId: undefined,
   universityName: "",
@@ -28,38 +52,129 @@ const EducationForm = (props: { handleNext: () => void }) => {
 
   const { mutateAsync, isPending } = useUpdateDocument();
 
-  const [educationList, setEducationList] = useState(() => {
+  // Modified state to include errors for each education entry
+  const [educationList, setEducationList] = useState<EducationEntry[]>(() => {
     return resumeInfo?.educations?.length
-      ? resumeInfo.educations
-      : [initialState];
+      ? resumeInfo.educations.map((edu) => ({
+          ...edu,
+          errors: {} as ValidationErrors,
+        }))
+      : [{ ...initialState, errors: {} as ValidationErrors }];
   });
 
   useEffect(() => {
     if (!resumeInfo) return;
     onUpdate({
       ...resumeInfo,
-      educations: educationList,
+      educations: educationList.map((edu) => {
+        // Remove errors before updating
+        const { errors, ...educationData } = edu;
+        return educationData;
+      }),
     });
   }, [educationList]);
+
+  // Validation function with improved type safety
+  const validateField = (
+    name: ValidatableEducationKey, 
+    value: string | null | undefined, 
+    educationEntry: EducationEntry
+  ): ValidationErrors => {
+    const errors: ValidationErrors = {};
+
+    // Required field validation
+    const requiredFields: ValidatableEducationKey[] = [
+      'universityName', 
+      'degree', 
+      'major', 
+      'startDate', 
+      'endDate'
+    ];
+
+    if (requiredFields.includes(name) && (!value || value.trim() === '')) {
+      errors[name] = `${
+        name.charAt(0).toUpperCase() + name.slice(1).replace(/([A-Z])/g, ' $1')
+      } is required`;
+    }
+
+    // Date validation
+    if (name === 'startDate' || name === 'endDate') {
+      const startDate = name === 'startDate' ? value : educationEntry.startDate;
+      const endDate = name === 'endDate' ? value : educationEntry.endDate;
+
+      if (startDate && endDate) {
+        if (new Date(endDate) < new Date(startDate)) {
+          errors.startDate = "Start date cannot be after end date";
+          errors.endDate = "End date cannot be before start date";
+        }
+      }
+    }
+
+    return errors;
+  };
 
   const handleChange = (
     e: { target: { name: string; value: string } },
     index: number
   ) => {
     const { name, value } = e.target;
-
+  
+    // Validatable keys için type guard
+    const isValidatableKey = (key: string): key is ValidatableEducationKey => {
+      return [
+        'universityName', 
+        'degree', 
+        'major', 
+        'startDate', 
+        'endDate', 
+        'description'
+      ].includes(key);
+    };
+  
     setEducationList((prevState) => {
       const newEducationList = [...prevState];
-      newEducationList[index] = {
-        ...newEducationList[index],
-        [name]: value,
-      };
+      const updatedEducation = { 
+        ...newEducationList[index], 
+        [name]: value 
+      } as EducationEntry;
+  
+      // Her alan için mutlaka validasyon yap
+      if (isValidatableKey(name)) {
+        // Tüm gerekli alanları her seferinde kontrol et
+        const fieldsToValidate: ValidatableEducationKey[] = [
+          'universityName', 
+          'degree', 
+          'major', 
+          'startDate', 
+          'endDate'
+        ];
+  
+        const allErrors: ValidationErrors = {};
+        fieldsToValidate.forEach(field => {
+          const fieldErrors = validateField(
+            field, 
+            updatedEducation[field], 
+            updatedEducation
+          );
+          Object.assign(allErrors, fieldErrors);
+        });
+        
+        updatedEducation.errors = allErrors;
+      }
+  
+      newEducationList[index] = updatedEducation;
       return newEducationList;
     });
   };
 
   const addNewEducation = () => {
-    setEducationList([...educationList, initialState]);
+    setEducationList([
+      ...educationList, 
+      { 
+        ...initialState, 
+        errors: {} as ValidationErrors 
+      }
+    ]);
   };
 
   const removeEducation = (index: number) => {
@@ -83,6 +198,50 @@ const EducationForm = (props: { handleNext: () => void }) => {
     async (e: { preventDefault: () => void }) => {
       e.preventDefault();
 
+      // Comprehensive validation before submission
+      const validatedEducationList = educationList.map((edu) => {
+        const errors: ValidationErrors = {};
+
+        // Validate all fields
+        const fieldsToValidate: ValidatableEducationKey[] = [
+          'universityName', 
+          'degree', 
+          'major', 
+          'startDate', 
+          'endDate'
+        ];
+
+        fieldsToValidate.forEach(field => {
+          const fieldErrors = validateField(
+            field, 
+            edu[field], 
+            edu
+          );
+          Object.assign(errors, fieldErrors);
+        });
+
+        return {
+          ...edu,
+          errors,
+        };
+      });
+
+      // Check if there are any validation errors
+      const hasErrors = validatedEducationList.some(
+        (edu) => Object.keys(edu.errors).length > 0
+      );
+
+      // If there are errors, update the state and prevent submission
+      if (hasErrors) {
+        setEducationList(validatedEducationList);
+        toast({
+          title: "Validation Error",
+          description: "Please correct the errors in the form",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const thumbnail = await generateThumbnail();
       const currentNo = resumeInfo?.currentPosition
         ? resumeInfo.currentPosition + 1
@@ -92,7 +251,11 @@ const EducationForm = (props: { handleNext: () => void }) => {
         {
           currentPosition: currentNo,
           thumbnail: thumbnail,
-          education: educationList,
+          education: validatedEducationList.map(edu => {
+            // Remove errors before sending to backend
+            const { errors, ...educationData } = edu;
+            return educationData;
+          }),
         },
         {
           onSuccess: () => {
@@ -120,7 +283,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
       <div className="w-full">
         <h2 className="font-bold text-lg">Education</h2>
         <p className="text-sm text-muted-foreground">
-          Add your education details
+          Add your educational background details
         </p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -153,60 +316,90 @@ const EducationForm = (props: { handleNext: () => void }) => {
                 )}
 
                 <div className="col-span-2">
-                  <Label className="text-sm">University Name <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">
+                    Institution Name <span className="text-red-500">*</span>
+                  </Label>
                   <Input
                     name="universityName"
-                    placeholder=""
-                    required
+                    placeholder="e.g., Harvard University"
                     value={item?.universityName || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {item?.errors?.universityName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {item.errors.universityName}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <Label className="text-sm">Degree <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">
+                    Degree Type <span className="text-red-500">*</span>
+                  </Label>
                   <Input
                     name="degree"
-                    placeholder=""
-                    required
+                    placeholder="e.g., Bachelor of Science"
                     value={item?.degree || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {item?.errors?.degree && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {item.errors.degree}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <Label className="text-sm">Major <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">
+                    Field of Study <span className="text-red-500">*</span>
+                  </Label>
                   <Input
                     name="major"
-                    placeholder=""
-                    required
+                    placeholder="e.g., Computer Science"
                     value={item?.major || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {item?.errors?.major && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {item.errors.major}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <Label className="text-sm">Start Date <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">
+                    Program Start Date <span className="text-red-500">*</span>
+                  </Label>
                   <Input
                     name="startDate"
                     type="date"
-                    placeholder=""
-                    required
+                    placeholder="Select start date"
                     value={item?.startDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {item?.errors?.startDate && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {item.errors.startDate}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <Label className="text-sm">End Date <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">
+                    Program End Date <span className="text-red-500">*</span>
+                  </Label>
                   <Input
                     name="endDate"
                     type="date"
-                    placeholder=""
-                    required
+                    placeholder="Select end date"
                     value={item?.endDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {item?.errors?.endDate && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {item.errors.endDate}
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-2 mt-1">
                   <RichTextEditorEducation
-                    major={item.major}
+                    major={item.major || ""}
                     initialValue={item.description || ""}
                     onEditorChange={(value: string) =>
                       handEditor(value, "description", index)

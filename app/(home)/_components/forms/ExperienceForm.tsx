@@ -2,6 +2,7 @@ import RichTextEditorExperience from "@/components/editorExperience";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useResumeContext } from "@/context/resume-info-provider";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { toast } from "@/hooks/use-toast";
@@ -21,10 +22,22 @@ const initialState = {
   currentlyWorking: false,
 };
 
+interface FormErrors {
+  title?: string;
+  companyName?: string;
+  city?: string;
+  state?: string;
+  startDate?: string;
+  endDate?: string;
+  workSummary?: string;
+  dateRange?: string;
+}
+
 const ExperienceForm = (props: { handleNext: () => void }) => {
   const { handleNext } = props;
   const { resumeInfo, onUpdate } = useResumeContext();
   const { mutateAsync, isPending } = useUpdateDocument();
+  const [errors, setErrors] = useState<FormErrors[]>([]);
 
   const [experienceList, setExperienceList] = useState(() => {
     return resumeInfo?.experiences?.length
@@ -40,29 +53,121 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
     });
   }, [experienceList]);
 
+  const validateDates = (startDate: string | null, endDate: string | null | undefined, currentlyWorking: boolean): boolean => {
+    // If either date is empty and not currently working, skip validation
+    if (!startDate || (!endDate && !currentlyWorking)) return true;
+    
+    const start = new Date(startDate);
+    const end = currentlyWorking ? new Date() : new Date(endDate || '');
+    
+    // Set hours to 0 for accurate date comparison
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+    
+    return start <= end;
+  };
+
   const handleChange = (
-    e: { target: { name: string; value: string } },
+    e: React.ChangeEvent<HTMLInputElement>, // Updated type definition
     index: number
   ) => {
     const { name, value } = e.target;
     setExperienceList((prevState) => {
       const newExperienceList = [...prevState];
-      newExperienceList[index] = {
+      const updatedExperience = {
         ...newExperienceList[index],
         [name]: value,
       };
+  
+      // Check date validation when either date changes
+      if (name === "startDate" || name === "endDate") {
+        const startDate = name === "startDate" ? value : updatedExperience.startDate || '';
+        const endDate = name === "endDate" ? value : updatedExperience.endDate || '';
+        
+        const isValidDateRange = validateDates(
+          startDate,
+          endDate,
+          updatedExperience.currentlyWorking
+        );
+  
+        setErrors(prev => {
+          const newErrors = [...prev];
+          if (!isValidDateRange) {
+            newErrors[index] = {
+              ...newErrors[index],
+              dateRange: "Start date cannot be later than end date"
+            };
+          } else {
+            const { dateRange, ...rest } = newErrors[index] || {};
+            newErrors[index] = rest;
+          }
+          return newErrors;
+        });
+      }
+  
+      newExperienceList[index] = updatedExperience;
+      return newExperienceList;
+    });
+    
+    // Clear specific field error when user starts typing
+    setErrors(prev => {
+      const newErrors = [...prev];
+      if (newErrors[index]) {
+        delete newErrors[index][name as keyof FormErrors];
+      }
+      return newErrors;
+    });
+  };
+
+  const handleCurrentlyWorking = (checked: boolean, index: number) => {
+    setExperienceList((prevState) => {
+      const newExperienceList = [...prevState];
+      const today = new Date().toISOString().split('T')[0];
+      
+      newExperienceList[index] = {
+        ...newExperienceList[index],
+        currentlyWorking: checked,
+        endDate: checked ? today : '',
+      };
+  
+      // Validate dates after updating currently working status
+      const isValidDateRange = validateDates(
+        newExperienceList[index].startDate || '' ,
+        checked ? today : '',
+        checked
+      );
+  
+      setErrors(prev => {
+        const newErrors = [...prev];
+        if (!isValidDateRange) {
+          newErrors[index] = {
+            ...newErrors[index],
+            dateRange: "Start date cannot be later than end date"
+          };
+        } else {
+          const { dateRange, ...rest } = newErrors[index] || {};
+          newErrors[index] = rest;
+        }
+        return newErrors;
+      });
+  
       return newExperienceList;
     });
   };
 
   const addNewExperience = () => {
     setExperienceList([...experienceList, initialState]);
+    setErrors([...errors, {}]);
   };
 
   const removeExperience = (index: number) => {
     const updatedExperience = [...experienceList];
     updatedExperience.splice(index, 1);
     setExperienceList(updatedExperience);
+    
+    const updatedErrors = [...errors];
+    updatedErrors.splice(index, 1);
+    setErrors(updatedErrors);
   };
 
   const handEditor = (value: string, name: string, index: number) => {
@@ -76,9 +181,69 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
     });
   };
 
+  const validateForm = () => {
+    const newErrors: FormErrors[] = [];
+    let isValid = true;
+
+    experienceList.forEach((experience, index) => {
+      const experienceErrors: FormErrors = {};
+
+      if (!experience.title) {
+        experienceErrors.title = "Position title is required";
+        isValid = false;
+      }
+      if (!experience.companyName) {
+        experienceErrors.companyName = "Company name is required";
+        isValid = false;
+      }
+      if (!experience.city) {
+        experienceErrors.city = "City is required";
+        isValid = false;
+      }
+      if (!experience.state) {
+        experienceErrors.state = "Country is required";
+        isValid = false;
+      }
+      if (!experience.startDate) {
+        experienceErrors.startDate = "Start date is required";
+        isValid = false;
+      }
+      if (!experience.currentlyWorking && !experience.endDate) {
+        experienceErrors.endDate = "End date is required";
+        isValid = false;
+      }
+
+      // Validate date range
+      const isValidDateRange = validateDates(
+        experience.startDate,
+        experience.endDate,
+        experience.currentlyWorking
+      );
+      
+      if (!isValidDateRange) {
+        experienceErrors.dateRange = "Start date cannot be later than end date";
+        isValid = false;
+      }
+
+      newErrors[index] = experienceErrors;
+    });
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = useCallback(
     async (e: { preventDefault: () => void }) => {
       e.preventDefault();
+
+      if (!validateForm()) {
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields correctly",
+          variant: "destructive",
+        });
+        return;
+      }
 
       const thumbnail = await generateThumbnail();
       const currentNo = resumeInfo?.currentPosition
@@ -132,8 +297,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                     type="button"
                     className="size-[20px] text-center
                               rounded-full absolute -top-3 -right-5
-                              !bg-black dark:!bg-gray-600 text-white
-                              "
+                              !bg-black dark:!bg-gray-600 text-white"
                     size="icon"
                     onClick={() => removeExperience(index)}
                   >
@@ -141,75 +305,109 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                   </Button>
                 )}
                 <div>
-                  <Label className="text-sm">Position Title <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">Job Title <span className="text-red-500">*</span></Label>
                   <Input
                     name="title"
-                    required
-                    placeholder=""
+                    placeholder="e.g., Software Engineer"
                     value={item?.title || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {errors[index]?.title && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].title}</p>
+                  )}
                 </div>
-
+  
                 <div>
-                  <Label className="text-sm">Company Name <span className="text-red-500">*</span></Label>
+                  <Label className="text-sm">Organization Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="companyName"
-                    required
-                    placeholder=""
+                    placeholder="e.g., Google Inc."
                     value={item?.companyName || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {errors[index]?.companyName && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].companyName}</p>
+                  )}
                 </div>
-
+  
                 <div>
                   <Label className="text-sm">City <span className="text-red-500">*</span></Label>
                   <Input
                     name="city"
-                    required
-                    placeholder=""
+                    placeholder="e.g., San Francisco"
                     value={item?.city || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {errors[index]?.city && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].city}</p>
+                  )}
                 </div>
-
+  
                 <div>
                   <Label className="text-sm">Country <span className="text-red-500">*</span></Label>
                   <Input
                     name="state"
-                    required
-                    placeholder=""
+                    placeholder="e.g., United States"
                     value={item?.state || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {errors[index]?.state && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].state}</p>
+                  )}
                 </div>
-
+  
                 <div>
                   <Label className="text-sm">Start Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="startDate"
                     type="date"
-                    required
-                    placeholder=""
+                    placeholder="Select start date"
                     value={item?.startDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
+                  {errors[index]?.startDate && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].startDate}</p>
+                  )}
                 </div>
-
+  
                 <div>
                   <Label className="text-sm">End Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="endDate"
                     type="date"
-                    required
-                    placeholder=""
+                    placeholder="Select end date"
                     value={item?.endDate || ""}
                     onChange={(e) => handleChange(e, index)}
+                    disabled={item.currentlyWorking}
                   />
+                  {errors[index]?.endDate && (
+                    <p className="text-red-500 text-xs mt-1">{errors[index].endDate}</p>
+                  )}
                 </div>
-
+  
+                {errors[index]?.dateRange && (
+                  <div className="col-span-2">
+                    <p className="text-red-500 text-xs mt-1">{errors[index].dateRange}</p>
+                  </div>
+                )}
+  
+                <div className="col-span-2 flex items-center gap-2 mt-2">
+                  <Checkbox
+                    id={`currently-working-${index}`}
+                    checked={item.currentlyWorking}
+                    onCheckedChange={(checked) => 
+                      handleCurrentlyWorking(checked as boolean, index)
+                    }
+                  />
+                  <Label 
+                    htmlFor={`currently-working-${index}`}
+                    className="text-sm font-normal"
+                  >
+                    I currently work here
+                  </Label>
+                </div>
+  
                 <div className="col-span-2 mt-1">
-                  {/* {Work Summary} */}
                   <RichTextEditorExperience
                     jobTitle={item.title}
                     initialValue={item.workSummary || ""}

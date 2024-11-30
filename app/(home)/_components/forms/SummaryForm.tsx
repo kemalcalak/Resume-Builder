@@ -81,6 +81,11 @@ const SummaryForm = (props: { handleNext: () => void }) => {
 
       // Validate before submission
       if (!validateForm()) {
+        toast({
+          title: "Error",
+          description: "Please fill in all required fields correctly",
+          variant: "destructive",
+        });
         return;
       }
 

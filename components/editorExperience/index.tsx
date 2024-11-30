@@ -73,7 +73,7 @@ const RichTextEditorExperience = (props: {
   return (
     <div>
       <div className="flex item-center justify-between my-2">
-        <Label>Work Summary</Label>
+        <Label>Work Summary <span className="text-red-500">*</span></Label>
         <Button
           type="button"
           variant="outline"

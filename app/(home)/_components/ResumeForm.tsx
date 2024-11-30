@@ -16,7 +16,7 @@ const ResumeForm = () => {
 
   const handleNext = () => {
     const newIndex = activeFormIndex + 1;
-    setActiveFormIndex(newIndex);
+    newIndex > 6 ? setActiveFormIndex(1) : setActiveFormIndex(newIndex);
   };
   return (
     <div
