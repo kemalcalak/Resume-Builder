@@ -41,7 +41,7 @@ export const documentRelations = relations(documentTable, ({ one, many }) => {
     personalInfo: one(personalInfoTable),
     experiences: many(experienceTable),
     educations: many(educationTable),
-    prjects: many(projectTable),
+    projects: many(projectTable),
     certificates: many(certificateTable),
   };
 });

@@ -194,7 +194,7 @@ const documentRoute = new Hono()
           }
 
           if (project && Array.isArray(project)) {
-            // Önce mevcut dökümanın tüm experience verilerini sil
+            // Önce mevcut dökümanın tüm project verilerini sil
             await trx
               .delete(projectTable)
               .where(eq(projectTable.docId, existingDocument.id));
@@ -210,7 +210,7 @@ const documentRoute = new Hono()
           }
 
           if (certificate && Array.isArray(certificate)) {
-            // Önce mevcut dökümanın tüm experience verilerini sil
+            // Önce mevcut dökümanın tüm certificate verilerini sil
             await trx
               .delete(certificateTable)
               .where(eq(certificateTable.docId, existingDocument.id));
@@ -298,6 +298,8 @@ const documentRoute = new Hono()
             personalInfo: true,
             experiences: true,
             educations: true,
+            projects: true,
+            certificates: true,
           },
         });
         return c.json({

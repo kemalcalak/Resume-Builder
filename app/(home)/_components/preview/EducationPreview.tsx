@@ -73,11 +73,12 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
                 </span>
               </span>
             </div>
-            {education?.description && (
-              <p className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 m">
-                {education?.description}
-              </p>
-            )}
+            <div
+              className="text-[13px] mobile:text-[12px] leading-tight exp-preview pb-1"
+              dangerouslySetInnerHTML={{
+                __html: education?.description || "",
+              }}
+            />
           </div>
         ))}
       </div>

@@ -205,15 +205,15 @@ const SummaryForm = (props: { handleNext: () => void }) => {
             )}
           </div>
 
-          <div className="flex justify-end">
-            <Button 
-              type="submit" 
-              disabled={isSubmitDisabled()}
-            >
-              {isPending && <Loader size={14} className="mr-2 animate-spin" />}
-              Save Summary
-            </Button>
-          </div>
+          <div className="flex justify-end mt-4">
+          <Button
+            type="submit"
+            disabled={isPending || resumeInfo?.status === "archived"}
+          >
+            {isPending && <Loader size="15px" className="animate-spin mr-2" />}
+            Save Changes
+          </Button>
+        </div>
         </form>
       ) : (
         <div className="space-y-4">

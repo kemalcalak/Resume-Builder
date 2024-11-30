@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import { useResumeContext } from "@/context/resume-info-provider";
 import { PersonalInfoType } from "@/types/resume.type";
 import React, {
-  ChangeEvent,
-  FormEvent,
   useCallback,
   useEffect,
   useState,

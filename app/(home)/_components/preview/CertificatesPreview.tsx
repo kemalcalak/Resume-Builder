@@ -10,6 +10,25 @@ interface Propstype {
 
 const CertificationsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+  };
   
   if (isLoading) {
     return <SkeletonLoader />;
@@ -34,34 +53,39 @@ const CertificationsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.certificates?.map((certificate, index) => (
           <div 
             key={index} 
-            className="bg-white shadow-sm rounded-lg p-3 mobile:p-2 mobile:rounded-md"
           >
-            <div className="flex flex-col mobile:flex-col">
-              <div className="flex flex-col mb-2">
-                <div className="flex items-center mb-1">
+            <div className="flex justify-between">
+              <div className="flex items-left">
+                <div className="flex items-left">
                   <span 
                     className="text-[13px] mobile:text-[12px] text-gray-600 mr-2"
                   >
-                    {certificate?.issueDate}
+                    {formatDate(certificate?.issueDate)}
                   </span>
                   <h5
-                    className="text-sm mobile:text-[14px] font-bold"
+                    className="text-[13px] mobile:text-[12px] font-bold"
                     style={{ color: themeColor }}
                   >
-                    {certificate?.certificateName}
+                    {certificate?.certificateName}{" "}
                   </h5>
                 </div>
                 {certificate?.teacher && (
-                  <h5 className="text-sm mobile:text-[13px] text-gray-700 mb-1">
-                    {certificate?.teacher}
+                  <h5 className="text-[13px] mobile:text-[12px] text-gray-700 mx-1">
+                    {" - "}
+                  </h5>
+                )}
+                {certificate?.teacher && (
+                  <h5 className="text-[13px] mobile:text-[12px] text-gray-700">
+                    
+                  {certificate?.teacher}
                   </h5>
                 )}
               </div>
               
-              <div className="flex justify-between items-end">
+              <div className="items-end">
                 <div></div>
                 <h5
-                  className="text-sm mobile:text-[13px] font-bold text-right"
+                  className="text-[13px] mobile:text-[12px] font-bold"
                   style={{ color: themeColor }}
                 >
                   {certificate?.whoGave}

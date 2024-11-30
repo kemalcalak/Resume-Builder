@@ -207,6 +207,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
+
                 <div className="col-span-2 mt-1">
                   {/* {Work Summary} */}
                   <RichTextEditorExperience
@@ -217,10 +218,10 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                     }
                   />
                 </div>
-
-                </div>
-                {index === experienceList.length - 1 &&
-                  experienceList.length < 5 && (
+              </div>
+              {index === experienceList.length - 1 &&
+                experienceList.length < 5 && (
+                  <div className="flex justify-end mt-4">
                     <Button
                       className="gap-1 mt-1 text-primary 
                           border-primary/50"
@@ -231,14 +232,20 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                       <Plus size="15px" />
                       Add More Experience
                     </Button>
-                  )}
+                  </div>
+                )}
             </div>
           ))}
         </div>
-        <Button className="mt-4" type="submit" disabled={isPending}>
-          {isPending && <Loader size={14} className="mr-2 animate-spin" />}
-          Save Experience
-        </Button>
+        <div className="flex justify-end mt-4">
+          <Button
+            type="submit"
+            disabled={isPending || resumeInfo?.status === "archived"}
+          >
+            {isPending && <Loader size="15px" className="animate-spin mr-2" />}
+            Save Changes
+          </Button>
+        </div>
       </form>
     </div>
   );

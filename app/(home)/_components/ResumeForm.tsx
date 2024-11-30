@@ -7,6 +7,8 @@ import PersonalInfoForm from "./forms/PersonalInfoForm";
 import SummaryForm from "./forms/SummaryForm";
 import ExperienceForm from "./forms/ExperienceForm";
 import EducationForm from "./forms/EducationForm";
+import ProjectForm from "./forms/ProjectForm";
+import CertificateForm from "./forms/CertificateForm";
 
 const ResumeForm = () => {
   const { resumeInfo } = useResumeContext();
@@ -78,10 +80,10 @@ const ResumeForm = () => {
           {activeFormIndex === 4 && <EducationForm handleNext={handleNext} />}
 
           {/* {Projects} */}
-          {/* {activeFormIndex === 5 && <ProjectsForm />} */}
+          {activeFormIndex === 5 && <ProjectForm handleNext={handleNext} />}
 
           {/* {Certificates} */}
-          {/* {activeFormIndex === 6 && <CertificatesForm />} */}
+          {activeFormIndex === 6 && <CertificateForm handleNext={handleNext} />}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useResumeContext } from "@/context/resume-info-provider";
 import { Button } from "@/components/ui/button";
 import { Loader, Plus, X } from "lucide-react";
@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { generateThumbnail } from "@/lib/helper";
 import { toast } from "@/hooks/use-toast";
+import RichTextEditorEduation from "@/components/editorEducation";
+import RichTextEditorEducation from "@/components/editorEducation";
 
 const initialState = {
   id: undefined,
@@ -26,7 +28,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
 
   const { mutateAsync, isPending } = useUpdateDocument();
 
-  const [educationList, setEducationList] = React.useState(() => {
+  const [educationList, setEducationList] = useState(() => {
     return resumeInfo?.educations?.length
       ? resumeInfo.educations
       : [initialState];
@@ -64,6 +66,17 @@ const EducationForm = (props: { handleNext: () => void }) => {
     const updatedEducation = [...educationList];
     updatedEducation.splice(index, 1);
     setEducationList(updatedEducation);
+  };
+
+  const handEditor = (value: string, name: string, index: number) => {
+    setEducationList((prevState) => {
+      const newEducationList = [...prevState];
+      newEducationList[index] = {
+        ...newEducationList[index],
+        [name]: value,
+      };
+      return newEducationList;
+    });
   };
 
   const handleSubmit = useCallback(
@@ -106,7 +119,9 @@ const EducationForm = (props: { handleNext: () => void }) => {
     <div>
       <div className="w-full">
         <h2 className="font-bold text-lg">Education</h2>
-        <p className="text-sm">Add your education details</p>
+        <p className="text-sm text-muted-foreground">
+          Add your education details
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
         <div
@@ -190,38 +205,41 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div className="col-span-2 mt-1">
-                  <Label className="text-sm">Description</Label>
-                  <Textarea
-                    name="description"
-                    placeholder=""
-                    required
-                    value={item.description || ""}
-                    onChange={(e) => handleChange(e, index)}
+                  <RichTextEditorEducation
+                    major={item.major}
+                    initialValue={item.description || ""}
+                    onEditorChange={(value: string) =>
+                      handEditor(value, "description", index)
+                    }
                   />
                 </div>
               </div>
 
               {index === educationList.length - 1 &&
                 educationList.length < 5 && (
-                  <Button
-                    className="gap-1 mt-1 text-primary 
+                  <div className="flex justify-end mt-4">
+                    <Button
+                      className="gap-1 mt-1 text-primary 
                           border-primary/50"
-                    variant="outline"
-                    type="button"
-                    disabled={isPending}
-                    onClick={addNewEducation}
-                  >
-                    <Plus size="15px" />
-                    Add More Education
-                  </Button>
+                      variant="outline"
+                      type="button"
+                      disabled={isPending}
+                      onClick={addNewEducation}
+                    >
+                      <Plus size="15px" />
+                      Add More Education
+                    </Button>
+                  </div>
                 )}
             </div>
           ))}
         </div>
-        <Button className="mt-4" type="submit" disabled={isPending}>
-          {isPending && <Loader size="15px" className="animate-spin" />}
-          Save Changes
-        </Button>
+        <div className="flex justify-end mt-4">
+          <Button className="mt-4" type="submit" disabled={isPending}>
+            {isPending && <Loader size="15px" className="animate-spin" />}
+            Save Changes
+          </Button>
+        </div>
       </form>
     </div>
   );

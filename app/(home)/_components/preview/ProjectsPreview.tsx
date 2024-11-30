@@ -9,6 +9,7 @@ interface Propstype {
 }
 
 const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
+  console.log(resumeInfo?.projects);
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
   
   if (isLoading) {
@@ -42,17 +43,13 @@ const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
               >
                 {project?.projectName}
               </h5>
-              <span className="text-[13px] mobile:text-[12px] text-gray-600">
-                {project?.startDate}
-                {project?.startDate && " - "}
-                {project?.endDate}
-              </span>
             </div>
-            {project?.projectSummary && (
-              <p className="text-[13px] mobile:text-[12px] leading-tight mt-2">
-                {project?.projectSummary}
-              </p>
-            )}
+            <div
+              className="text-[13px] mobile:text-[12px] leading-tight exp-preview pb-1"
+              dangerouslySetInnerHTML={{
+                __html: project?.projectSummary || "",
+              }}
+            />
           </div>
         ))}
       </div>
