@@ -34,7 +34,6 @@ const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         {resumeInfo?.projects?.map((project, index) => (
           <div 
             key={index} 
-            className="bg-white shadow-sm rounded-lg p-3 mobile:p-2 mobile:rounded-md"
           >
             <div className="flex flex-col mobile:flex-row mobile:items-center mobile:justify-between mb-2">
               <h5 
@@ -50,7 +49,7 @@ const ProjectsPreview: FC<Propstype> = ({ resumeInfo, isLoading }) => {
               </span>
             </div>
             {project?.projectSummary && (
-              <p className="text-[13px] mobile:text-[12px] leading-tight text-gray-800 mt-2">
+              <p className="text-[13px] mobile:text-[12px] leading-tight mt-2">
                 {project?.projectSummary}
               </p>
             )}
