@@ -141,7 +141,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                   </Button>
                 )}
                 <div>
-                  <Label className="text-sm">Position Title</Label>
+                  <Label className="text-sm">Position Title <span className="text-red-500">*</span></Label>
                   <Input
                     name="title"
                     required
@@ -152,7 +152,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">Company Name</Label>
+                  <Label className="text-sm">Company Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="companyName"
                     required
@@ -163,7 +163,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">City</Label>
+                  <Label className="text-sm">City <span className="text-red-500">*</span></Label>
                   <Input
                     name="city"
                     required
@@ -174,7 +174,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">Country</Label>
+                  <Label className="text-sm">Country <span className="text-red-500">*</span></Label>
                   <Input
                     name="state"
                     required
@@ -185,7 +185,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">Start Date</Label>
+                  <Label className="text-sm">Start Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="startDate"
                     type="date"
@@ -197,7 +197,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">End Date</Label>
+                  <Label className="text-sm">End Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="endDate"
                     type="date"

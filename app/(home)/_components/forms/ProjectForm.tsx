@@ -141,7 +141,7 @@ const ProjectForm = (props: { handleNext: () => void }) => {
                   </Button>
                 )}
                 <div className="col-span-2">
-                  <Label className="text-sm">Project Name</Label>
+                  <Label className="text-sm">Project Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="projectName"
                     required

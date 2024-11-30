@@ -128,7 +128,7 @@ const CertificateForm = (props: { handleNext: () => void }) => {
                   </Button>
                 )}
                 <div>
-                  <Label className="text-sm">Certificate Name</Label>
+                  <Label className="text-sm">Certificate Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="certificateName"
                     required
@@ -138,7 +138,7 @@ const CertificateForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Teacher Name</Label>
+                  <Label className="text-sm">Teacher Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="teacher"
                     required
@@ -148,7 +148,7 @@ const CertificateForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Who Gave</Label>
+                  <Label className="text-sm">Who Gave <span className="text-red-500">*</span></Label>
                   <Input
                     name="whoGave"
                     required
@@ -159,7 +159,7 @@ const CertificateForm = (props: { handleNext: () => void }) => {
                 </div>
 
                 <div>
-                  <Label className="text-sm">When was it given</Label>
+                  <Label className="text-sm">When was it given <span className="text-red-500">*</span></Label>
                   <Input
                     name="issueDate"
                     type="date"

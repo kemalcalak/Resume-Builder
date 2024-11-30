@@ -153,7 +153,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
                 )}
 
                 <div className="col-span-2">
-                  <Label className="text-sm">University Name</Label>
+                  <Label className="text-sm">University Name <span className="text-red-500">*</span></Label>
                   <Input
                     name="universityName"
                     placeholder=""
@@ -163,7 +163,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Degree</Label>
+                  <Label className="text-sm">Degree <span className="text-red-500">*</span></Label>
                   <Input
                     name="degree"
                     placeholder=""
@@ -173,7 +173,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Major</Label>
+                  <Label className="text-sm">Major <span className="text-red-500">*</span></Label>
                   <Input
                     name="major"
                     placeholder=""
@@ -183,7 +183,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Start Date</Label>
+                  <Label className="text-sm">Start Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="startDate"
                     type="date"
@@ -194,7 +194,7 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">End Date</Label>
+                  <Label className="text-sm">End Date <span className="text-red-500">*</span></Label>
                   <Input
                     name="endDate"
                     type="date"
