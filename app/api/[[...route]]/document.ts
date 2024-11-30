@@ -163,34 +163,29 @@ const documentRoute = new Hono()
           }
 
           if (experience && Array.isArray(experience)) {
-            const existingExperience = await trx
-              .select()
-              .from(experienceTable)
+            // Önce mevcut dökümanın tüm experience verilerini sil
+            await trx
+              .delete(experienceTable)
               .where(eq(experienceTable.docId, existingDocument.id));
-            const existingExperienceMap = new Set(
-              existingExperience.map((exp) => exp.id)
-            );
+          
+            // Sonra yeni verileri ekle
             for (const exp of experience) {
-              if (exp.id) {
-                if (existingExperienceMap.has(exp.id)) {
-                  const { id, ...updateData } = exp;
-                  await trx
-                    .update(experienceTable)
-                    .set(updateData)
-                    .where(
-                      and(
-                        eq(experienceTable.docId, existingDocument.id),
-                        eq(experienceTable.id, id)
-                      )
-                    );
-                } else {
-                  const { id, ...insertData } = exp;
-                  await trx
-                    .insert(experienceTable)
-                    .values({ docId: existingDocument.id, ...insertData });
-                }
-              }
+              const { id, ...data } = exp;
+              await trx.insert(experienceTable).values({
+                docId: existingDocument.id,
+                ...data,
+              });
             }
+          
+            // Alternatif olarak, çoklu insert işlemi için:
+            // const insertData = experience.map(exp => {
+            //   const { id, ...data } = exp;
+            //   return {
+            //     docId: existingDocument.id,
+            //     ...data
+            //   };
+            // });
+            // await trx.insert(experienceTable).values(insertData);
           }
 
           if (education && Array.isArray(education)) {

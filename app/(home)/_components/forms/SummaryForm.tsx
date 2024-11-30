@@ -189,7 +189,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
               disabled={loading || isPending}
             >
               <Sparkles size={14} className="text-primary" />
-              AI Generate
+              Generate with Gemini
             </Button>
           </div>
 

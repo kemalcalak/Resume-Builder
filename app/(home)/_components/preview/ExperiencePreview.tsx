@@ -11,6 +11,16 @@ interface PropsType {
 const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   const themeColor = resumeInfo?.themeColor || INITIAL_THEME_COLOR;
 
+  const formatDate = (dateString:string|null) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+  };
+
   if (isLoading) {
     return <SkeletonLoader />;
   }
@@ -32,31 +42,32 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
 
       <div className="flex flex-col min-h-9">
         {resumeInfo?.experiences?.map((experience, index) => (
-          <div 
-            key={index} 
-            className=" rounded-lg  mobile:rounded-md"
-          >
+          <div key={index} className=" rounded-lg  mobile:rounded-md">
             <div className="flex justify-between">
-            <h5 
-              className="text-[15px] mobile:text-[14px] font-bold mb-1" 
-              style={{ color: themeColor }}
-            >
-              {experience?.title}
-            </h5>
-            <h5 className="text-[13px] mobile:text-[12px] text-gray-700 pt-1 mb-1 mobile:mb-0">
-            {experience?.city}
-                {experience?.city && experience?.state && ", "}
+              <h5
+                className="text-[15px] mobile:text-[14px] font-bold mb-1"
+                style={{ color: themeColor }}
+              >
+                {experience?.title}
+              </h5>
+              <h5 className="text-[13px] mobile:text-[12px] text-gray-700 pt-1 mb-1 mobile:mb-0">
+                {experience?.city}
+                {experience?.city && experience?.state && " - "}
                 {experience?.state}
-            </h5>
+              </h5>
             </div>
-            <div className="flex flex-col mobile:flex-row mobile:items-center mobile:justify-between mb-2">
+            <div className="flex justify-between">
               <h5 className="text-[13px] mobile:text-[12px] text-gray-700 mb-1 mobile:mb-0">
                 {experience?.companyName}
               </h5>
               <span className="text-[13px] mobile:text-[12px] text-gray-600">
-                {experience?.startDate}
-                {experience?.startDate && " - "}
-                {experience?.currentlyWorking ? "Present" : experience?.endDate}
+                <span className="text-[13px] text-gray-600">
+                  {formatDate(experience?.startDate)}
+                  {experience?.startDate && " - "}
+                  {experience?.currentlyWorking
+                    ? "Present"
+                    : formatDate(experience?.endDate)}
+                </span>
               </span>
             </div>
             <div
