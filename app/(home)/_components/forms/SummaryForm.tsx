@@ -200,7 +200,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
 
           <div className="space-y-1">
             <Textarea
-              className={`min-h-[150px] ${errors.summary ? 'border-red-500' : ''}`}
+              className={`min-h-[200px] ${errors.summary ? 'border-red-500' : ''}`}
               placeholder="Write your professional summary here..."
               value={resumeInfo?.summary || ""}
               onChange={handleChange}
