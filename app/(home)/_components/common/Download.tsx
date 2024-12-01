@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { DownloadCloud } from "lucide-react";
@@ -15,7 +15,13 @@ const Download = (props: {
 }) => {
   const { title, status, isLoading } = props;
   const [loading, setLoading] = useState(false);
-  const {theme} = useTheme();
+  const { theme, systemTheme } = useTheme();
+  const [currentTheme, setCurrentTheme] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Determine the actual system theme
+    setCurrentTheme(theme === 'system' ? systemTheme : theme);
+  }, [theme, systemTheme]);
 
   const handleDownload = useCallback(async () => {
     const resumeElement = document.getElementById("resume-preview-id");
@@ -27,25 +33,30 @@ const Download = (props: {
       });
       return;
     }
+
     setLoading(true);
 
     const fileName = formatFileName(title);
     try {
-      if(theme === "dark") {
-        
-        throw new Error("Please switch to light mode to download");
+      // Dark theme control
+      if (currentTheme === "dark") {
+        toast({
+          title: "Error",
+          description: "Please switch to light mode to download",
+          variant: "destructive",
+        });
+        return;
       }
 
       const canvas = await html2canvas(resumeElement, { scale: 2 });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
-      const imgWidth = 210; //A4 size in mm
+      const imgWidth = 210; // A4 size in mm
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
 
       let position = 0;
-      9;
       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
@@ -55,42 +66,28 @@ const Download = (props: {
         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
+
       pdf.save(fileName);
     } catch (error) {
       console.error("Error generating PDF:", error);
-      if(error.message === "Please switch to light mode to download") {
-        toast({
-          title: "Error",
-          description: "Please switch to light mode to download",
-          variant: "destructive",
-        });
-      }else{
-        toast({
-          title: "Error",
-          description: "Error generating PDF:",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Error generating PDF",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
-  }, [title]);
+  }, [title, currentTheme]);
 
   return (
-    <Button
-      disabled={isLoading || loading || status === "archived" ? true : false}
-      variant="secondary"
-      className="bg-white border gap-1
-                   dark:bg-gray-800 !p-2
-                    min-w-9 lg:min-w-auto lg:p-4"
-      onClick={handleDownload}
+    <Button 
+      onClick={handleDownload} 
+      disabled={isLoading || loading}
+      className="flex items-center gap-2"
     >
-      <div className="flex items-center gap-1">
-        <DownloadCloud size="17px" />
-        <span className="hidden lg:flex">
-          {loading ? "Generating PDF" : "Download Resume"}
-        </span>
-      </div>
+      <DownloadCloud size={16} />
+      {loading ? "Generating PDF" : "Download Resume"}
     </Button>
   );
 };
