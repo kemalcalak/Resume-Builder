@@ -6,6 +6,7 @@ import React, { useCallback } from "react";
 import useUpdateDocument from "@/features/document/use-update-document";
 import { toast } from "@/hooks/use-toast";
 import ThemeColor from "./ThemeColor";
+import PreviewModal from "../PreviewModal";
 
 const TopSection = () => {
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
@@ -66,6 +67,7 @@ const TopSection = () => {
           <ThemeColor />
 
           {/* Preview Modal */}
+          <PreviewModal/>
 
           {/* Download resume */}
 

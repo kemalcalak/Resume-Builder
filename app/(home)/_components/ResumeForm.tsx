@@ -16,34 +16,27 @@ const ResumeForm = () => {
 
   const handleNext = () => {
     const newIndex = activeFormIndex + 1;
-    newIndex > 6 ? setActiveFormIndex(1) : setActiveFormIndex(newIndex);
+    setActiveFormIndex(newIndex > 6 ? 1 : newIndex);
   };
+
+  const handlePrevious = () => {
+    setActiveFormIndex(prevIndex => prevIndex > 1 ? prevIndex - 1 : prevIndex);
+  };
+
   return (
-    <div
-      className="flex-1 w-full lg:sticky
-  lg:top-16
-  "
-    >
-      <div
-        className="shadow-md rounded-md bg-white
-      !border-t-primary !border-t-4 
-      dark:bg-card dark:border
-      dark:border-gray-800
-      "
+    <div className="flex-1 w-full lg:sticky lg:top-16 lg:max-w-[1000px] xl:max-w-[1200px] 2xl:max-w-[1400px] mx-auto lg:mx-1">
+      <div 
+        className="shadow-md rounded-md bg-white 
+        !border-t-primary !border-t-4 
+        dark:bg-card dark:border dark:border-gray-800"
       >
-        <div
-          className="
-        flex items-center gap-1
-        px-3 justify-end
-        border-b py-[7px] min-h-10
-        "
-        >
+        <div className="flex items-center gap-1 px-3 justify-end border-b py-[7px] min-h-10">
           {activeFormIndex > 1 && (
             <Button
               variant="outline"
               size="default"
               className="!px-2 !py-1 !h-auto"
-              onClick={() => setActiveFormIndex(activeFormIndex - 1)}
+              onClick={handlePrevious}
             >
               <ArrowLeft size="16px" />
               Previous
@@ -54,35 +47,20 @@ const ResumeForm = () => {
             variant="outline"
             size="default"
             className="!px-2 !py-1 !h-auto"
-            disabled={
-              activeFormIndex === 6 || resumeInfo?.status === "archived"
-                ? true
-                : false
-            }
+            disabled={activeFormIndex === 6 || resumeInfo?.status === "archived"}
             onClick={handleNext}
           >
             Next
             <ArrowRight size="16px" />
           </Button>
         </div>
+        
         <div className="px-5 py-3 pb-5">
-          {/* {PersonalInfo Form} */}
-          {activeFormIndex === 1 && (
-            <PersonalInfoForm handleNext={handleNext} />
-          )}
-
+          {activeFormIndex === 1 && <PersonalInfoForm handleNext={handleNext} />}
           {activeFormIndex === 2 && <SummaryForm handleNext={handleNext} />}
-
-          {/* {Professional Exp.} */}
           {activeFormIndex === 3 && <ExperienceForm handleNext={handleNext} />}
-
-          {/* {Eduncational Info} */}
           {activeFormIndex === 4 && <EducationForm handleNext={handleNext} />}
-
-          {/* {Projects} */}
           {activeFormIndex === 5 && <ProjectForm handleNext={handleNext} />}
-
-          {/* {Certificates} */}
           {activeFormIndex === 6 && <CertificateForm handleNext={handleNext} />}
         </div>
       </div>
