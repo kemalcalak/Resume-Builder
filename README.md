@@ -1,5 +1,10 @@
-
 # Resume Builder
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="https://res.cloudinary.com/dkqu2s9gz/image/upload/v1733067741/n4rvawpiydkjowqzagv8.jpg" width="250" alt="Resume-Builder Screenshot 1">
+  <img src="https://res.cloudinary.com/dkqu2s9gz/image/upload/v1733067741/hx4rbztegm3wirjlqip3.jpg" width="250" alt="Resume-Builder Screenshot 3">
+  <img src="https://res.cloudinary.com/dkqu2s9gz/image/upload/v1733067741/lxy07rrousrzjnzqgryn.jpg" width="250" alt="Resume-Builder Screenshot 2">
+</div>
 
 **Resume Builder** is a professional **Next.js** application designed to simplify the process of creating resumes. With customizable themes and PDF download capabilities, this application enables users to input, organize, and showcase their personal information, educational background, work experiences, and projects efficiently.
 
