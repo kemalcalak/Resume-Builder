@@ -84,7 +84,9 @@ const Download = (props: {
     <Button 
       onClick={handleDownload} 
       disabled={isLoading || loading}
-      className="flex items-center gap-2"
+      className="flex items-center gap-2 bg-white border
+                   dark:bg-gray-800 !p-2
+                    lg:w-auto lg:p-4"
     >
       <DownloadCloud size={16} />
       {loading ? "Generating PDF" : "Download Resume"}
