@@ -14,12 +14,22 @@
 
 ## 🔧 Technology Stack
 
--  **Next.js**: React-based framework for building web applications.
--  **TypeScript**: For static type checking.
--  **Tailwind CSS**: Rapid UI development.
--  **Drizzle ORM**: Modern ORM for data management.
--  **Vercel**: For live deployment.
--  **Gemini API**: For AI-powered resume generation.
+- **Authentication with Kinde** - Google Sign-In
+- **Creating Resumes**
+- **Editing Resumes**
+- **Resume Theme Colors**
+- **Resume Thumbnail**
+- **Shareable Resume Link**
+- **Search Trash Resume**
+- **Real-Time Editing**
+- **Preview Mode**
+- **Download Resume to PDF Format**
+- **Resume Generation with Gemini AI**
+- **Built with Next.js 14**
+- **Styled with TailwindCSS and Shadcn UI**
+- **Hono API & Tanstack React Query**
+- **Vercel PostgreSQL & Drizzle ORM**
+- **Deployed on Vercel**
 
 ## 📂 Project Structure
 
@@ -151,6 +161,43 @@ yarn dev
 
 6. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
+
+## 🔄 Deploy to Vercel
+
+To deploy this project to Vercel, follow these steps:
+
+### 1. Add Environment Variables
+
+After deploying, navigate to **Vercel > Project Settings > Environment Variables** and add the necessary environment variables for production.
+
+Replace all occurrences of `localhost` with your Vercel domain URL, as shown below:
+
+```plaintext
+KINDE_SITE_URL=https://resume-builder-beta-five.vercel.app/
+KINDE_POST_LOGOUT_REDIRECT_URL=https://resume-builder-beta-five.vercel.app/
+KINDE_POST_LOGIN_REDIRECT_URL=https://resume-builder-beta-five.vercel.app/dashboard
+NEXT_PUBLIC_APP_URL=https://resume-builder-beta-five.vercel.app/
+```
+
+These variables ensure that the app functions properly on your Vercel deployment.
+
+### 2. Initialize and Deploy
+
+Run the following command to initialize the deployment:
+
+```bash
+vercel
+```
+
+This command will prompt you to configure the project for the first time if it hasn't been linked to Vercel.
+
+Once configured, deploy the project to production using:
+
+```bash
+vercel --prod
+```
+
+This will push your latest changes live on Vercel.
   
 
 ## 📜 Usage
