@@ -358,7 +358,7 @@ const CertificateForm = (props: { handleNext: () => void }) => {
           ))}
         </div>
         <div className="flex justify-end mt-4">
-          <Button className="mt-4" type="submit" disabled={isPending}>
+          <Button className="hover:motion-preset-confetti" type="submit" disabled={isPending}>
             {isPending && <Loader size="15px" className="animate-spin" />}
             Save Certifications
           </Button>

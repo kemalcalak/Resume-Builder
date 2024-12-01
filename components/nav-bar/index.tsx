@@ -11,15 +11,15 @@ const NavBar = () => {
       <div className="w-full mx-auto max-w-7xl p-3 px-5 flex items-center justify-between ">
         <div className="flex items-center flex-1 gap-9">
           <div>
-            <h5 className="font-black text-lg text-primary">Resume Builder</h5>
+            <h5 className="font-black text-lg text-primary motion-preset-typewriter-[14]">Resume Builder</h5>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <LoginLink>
-            <Button variant="outline">Sign In</Button>
+            <Button variant="outline" className="">Sign In</Button>
           </LoginLink>
           <RegisterLink>
-            <Button>Get Started</Button>
+            <Button className="motion-preset-pulse motion-duration-2000">Get Started</Button>
           </RegisterLink>
         </div>
       </div>

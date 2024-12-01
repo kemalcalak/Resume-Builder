@@ -26,7 +26,7 @@ const Header = () => {
           <div>
             <Link
               href="/dashboard"
-              className="font-black text-[20px] text-primary"
+              className="font-black text-[20px] text-primary "
             >
               Resume Builder
             </Link>

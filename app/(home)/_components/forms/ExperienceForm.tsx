@@ -438,6 +438,7 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
         <div className="flex justify-end mt-4">
           <Button
             type="submit"
+            className="hover:motion-preset-confetti"
             disabled={isPending || resumeInfo?.status === "archived"}
           >
             {isPending && <Loader size="15px" className="animate-spin mr-2" />}

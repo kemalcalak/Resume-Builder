@@ -358,6 +358,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
         </div>
         <div className="flex justify-end mt-4">
           <Button
+          className="hover:motion-preset-confetti"
             type="submit"
             disabled={isPending || resumeInfo?.status === "archived"}
           >

@@ -377,7 +377,7 @@ const ProjectForm = (props: { handleNext: () => void }) => {
         </div>
         <div className="flex justify-end mt-4">
           <Button 
-            className="mt-4" 
+            className="hover:motion-preset-confetti" 
             type="submit" 
             disabled={isPending}
           >

@@ -78,7 +78,7 @@ const RichTextEditorProject = (props: {
           type="button"
           variant="outline"
           size="sm"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:motion-preset-pulse hover:motion-duration-1500"
           disabled={loading}
           onClick={GenerateSummaryFromAI}
         >

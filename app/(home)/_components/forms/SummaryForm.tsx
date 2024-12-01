@@ -189,7 +189,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
               type="button"
               variant="outline"
               size="sm"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:motion-preset-pulse hover:motion-duration-1500 "
               onClick={GenerateSummaryFromAI}
               disabled={loading || isPending}
             >
@@ -212,6 +212,7 @@ const SummaryForm = (props: { handleNext: () => void }) => {
 
           <div className="flex justify-end mt-4">
           <Button
+          className="hover:motion-preset-confetti"
             type="submit"
             disabled={isPending || resumeInfo?.status === "archived"}
           >
