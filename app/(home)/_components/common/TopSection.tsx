@@ -8,6 +8,8 @@ import { toast } from "@/hooks/use-toast";
 import ThemeColor from "./ThemeColor";
 import PreviewModal from "../PreviewModal";
 import Download from "./Download";
+import Share from "./Share";
+import MoreOption from "./MoreOption";
 
 const TopSection = () => {
   const { resumeInfo, isLoading, onUpdate } = useResumeContext();
@@ -66,11 +68,11 @@ const TopSection = () => {
       )}
       <div
         className="
-          w-full flex items-center justify-between
+          w-full flex flex-col lg:flex-row items-center justify-between
           border-b pb-3
           "
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-1 lg:mb-0">
           <ResumeTitle
             isLoading={isLoading || isPending}
             initialTitle={resumeInfo?.title || ""}
@@ -93,8 +95,10 @@ const TopSection = () => {
           />
 
           {/* Share Resume */}
+          <Share />
 
           {/* More Option */}
+          <MoreOption />
         </div>
       </div>
     </>

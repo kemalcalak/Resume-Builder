@@ -29,7 +29,6 @@ const ResumeList = () => {
             title={resume.title}
             status={resume.status}
             updatedAt={resume.updatedAt}
-            themeColor={resume.themeColor}
             thumbnail={resume.thumbnail}
             />
           ))}

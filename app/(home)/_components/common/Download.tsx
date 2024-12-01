@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { formatFileName } from "@/lib/helper";
 import { StatusType } from "@/types/resume.type";
+import { useTheme } from "next-themes";
 
 const Download = (props: {
   title: string;
@@ -14,6 +15,7 @@ const Download = (props: {
 }) => {
   const { title, status, isLoading } = props;
   const [loading, setLoading] = useState(false);
+  const {theme} = useTheme();
 
   const handleDownload = useCallback(async () => {
     const resumeElement = document.getElementById("resume-preview-id");
@@ -29,6 +31,11 @@ const Download = (props: {
 
     const fileName = formatFileName(title);
     try {
+      if(theme === "dark") {
+        
+        throw new Error("Please switch to light mode to download");
+      }
+
       const canvas = await html2canvas(resumeElement, { scale: 2 });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
@@ -51,11 +58,19 @@ const Download = (props: {
       pdf.save(fileName);
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast({
-        title: "Error",
-        description: "Error generating PDF:",
-        variant: "destructive",
-      });
+      if(error.message === "Please switch to light mode to download") {
+        toast({
+          title: "Error",
+          description: "Please switch to light mode to download",
+          variant: "destructive",
+        });
+      }else{
+        toast({
+          title: "Error",
+          description: "Error generating PDF:",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }

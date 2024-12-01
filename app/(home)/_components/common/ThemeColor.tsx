@@ -18,9 +18,19 @@ const ThemeColor = () => {
   const { resumeInfo, onUpdate } = useResumeContext();
   const { mutateAsync } = useUpdateDocument();
 
-  const [selectedColor, setSelectedColor] = useState(INITIAL_THEME_COLOR);
+  // Initialize with the user's saved color or fall back to initial color
+  const [selectedColor, setSelectedColor] = useState(
+    resumeInfo?.themeColor || INITIAL_THEME_COLOR
+  );
 
   const debouncedColor = useDebounce<string>(selectedColor, 1000);
+
+  // Update selectedColor when resumeInfo changes
+  useEffect(() => {
+    if (resumeInfo?.themeColor) {
+      setSelectedColor(resumeInfo.themeColor);
+    }
+  }, [resumeInfo?.themeColor]);
 
   useEffect(() => {
     if (debouncedColor) onSave();
@@ -42,13 +52,10 @@ const ThemeColor = () => {
 
   const onSave = useCallback(async () => {
     if (!selectedColor) return;
-    if (selectedColor === INITIAL_THEME_COLOR) return;
-    const thumbnail = await generateThumbnail();
 
     await mutateAsync(
       {
-        themeColor: selectedColor,
-        thumbnail: thumbnail,
+        themeColor: selectedColor
       },
       {
         onSuccess: () => {
@@ -66,7 +73,7 @@ const ThemeColor = () => {
         },
       }
     );
-  }, [selectedColor]);
+  }, [selectedColor, mutateAsync]);
 
   return (
     <Popover>

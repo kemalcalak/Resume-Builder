@@ -1,7 +1,7 @@
 "use client";
-import { useResumeContext } from "@/context/resume-info-provider";
-import { cn } from "@/lib/utils";
 import React from "react";
+import { ResumeDataType } from "@/types/resume.type";
+import { cn } from "@/lib/utils";
 import PersonalInfo from "@/components/preview/PersonalInfo";
 import SummaryPreview from "@/components/preview/SummaryPreview";
 import ExperiencePreview from "@/components/preview/ExperiencePreview";
@@ -9,8 +9,11 @@ import EducationPreview from "@/components/preview/EducationPreview";
 import ProjectsPreview from "@/components/preview/ProjectsPreview";
 import CertificationsPreview from "@/components/preview/CertificatesPreview";
 
-const ResumePreview = () => {
-  const { resumeInfo, isLoading } = useResumeContext();
+const PreviewResume = (props: {
+    isLoading: boolean;
+    resumeInfo: ResumeDataType;
+  }) => {
+    const { isLoading, resumeInfo } = props;
 
   return (
     <div
@@ -44,4 +47,4 @@ const ResumePreview = () => {
   );
 };
 
-export default ResumePreview;
+export default PreviewResume;

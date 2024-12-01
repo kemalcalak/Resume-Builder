@@ -8,7 +8,6 @@ interface PropType {
   documentId: string;
   title: string;
   status: "archived" | "private" | "public";
-  themeColor: string | null;
   thumbnail: string | null;
   updatedAt: string;
 }
@@ -17,7 +16,6 @@ const ResumeItem: FC<PropType> = ({
   documentId,
   status,
   title,
-  themeColor,
   thumbnail,
   updatedAt,
 }) => {
@@ -54,8 +52,7 @@ const ResumeItem: FC<PropType> = ({
           dark:bg-secondary"
       >
         <div
-          className="w-full flex flex-1 px-1
-         pt-2"
+          className="w-full flex flex-1"
         >
           <div
             className="w-full flex flex-1 bg-white
@@ -107,9 +104,6 @@ const ResumeItem: FC<PropType> = ({
             >
               {title}
             </h5>
-            <button className="text-muted-foreground">
-              <EllipsisVertical size="20px" />
-            </button>
           </div>
           <div
             className="flex items-center
