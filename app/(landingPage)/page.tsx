@@ -53,7 +53,7 @@ export default function Home() {
                 src={imageSrc}
                 alt="App dashboard"
                 fill
-                className="object-contain w-full h-full rounded-md motion-scale-in-[0.5] motion-translate-x-in-[-84%] motion-translate-y-in-[63%] motion-opacity-in-[0%] motion-rotate-in-[-10deg] motion-blur-in-[5px] motion-duration-[0.88s] motion-duration-[1.31s]/scale motion-duration-[1.31s]/translate motion-duration-[1.57s]/rotate"
+                className="object-contain w-full h-full rounded-md motion-scale-in-[0.5] motion-translate-x-in-[-200%] motion-translate-y-in-[200%] motion-opacity-in-[0%] motion-rotate-in-[-10deg] motion-blur-in-[5px] motion-duration-[1.13s] motion-duration-[1.69s]/scale motion-duration-[1.69s]/translate motion-duration-[2.02s]/rotate motion-ease-out-cubic"
               />
             </div>
           </div>
