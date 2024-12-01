@@ -16,11 +16,13 @@ const Download = (props: {
   const { title, status, isLoading } = props;
   const [loading, setLoading] = useState(false);
   const { theme, systemTheme } = useTheme();
-  const [currentTheme, setCurrentTheme] = useState<string | undefined>(undefined);
+  const [currentTheme, setCurrentTheme] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     // Determine the actual system theme
-    setCurrentTheme(theme === 'system' ? systemTheme : theme);
+    setCurrentTheme(theme === "system" ? systemTheme : theme);
   }, [theme, systemTheme]);
 
   const handleDownload = useCallback(async () => {
@@ -72,7 +74,8 @@ const Download = (props: {
       console.error("Error generating PDF:", error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Error generating PDF",
+        description:
+          error instanceof Error ? error.message : "Error generating PDF",
         variant: "destructive",
       });
     } finally {
@@ -81,15 +84,20 @@ const Download = (props: {
   }, [title, currentTheme]);
 
   return (
-    <Button 
-      onClick={handleDownload} 
-      disabled={isLoading || loading}
-      className="flex items-center gap-2 bg-white border
+    <Button
+      disabled={isLoading || loading || status === "archived" ? true : false}
+      variant="secondary"
+      className="bg-white border gap-1
                    dark:bg-gray-800 !p-2
-                    lg:w-auto lg:p-4"
+                    min-w-9 lg:min-w-auto lg:p-4"
+      onClick={handleDownload}
     >
-      <DownloadCloud size={16} />
-      {loading ? "Generating PDF" : "Download Resume"}
+      <div className="flex items-center gap-1">
+        <DownloadCloud size="17px" />
+        <span className="hidden lg:flex">
+          {loading ? "Generating PDF" : "Download Resume"}
+        </span>
+      </div>
     </Button>
   );
 };
