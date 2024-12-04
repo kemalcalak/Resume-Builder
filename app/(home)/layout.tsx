@@ -10,7 +10,6 @@ const MainLayout = async ({
 }>) => {
   const { isAuthenticated,getUser } = getKindeServerSession();
   const isUserAuthenticated = await isAuthenticated();
-  const user = await getUser()
 
   if (!isUserAuthenticated) {
     redirect("/");
