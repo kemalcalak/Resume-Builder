@@ -215,32 +215,6 @@ This will push your latest changes live on Vercel.
 
 4.  **Download as PDF**: Export your resume in a polished PDF format.
 
-## 🛠 Contributing
-
-Contributions are welcome! Follow these steps to contribute:
-
-1. Fork the repository.
-
-2. Create a new feature branch:
-
-```bash
-git checkout -b feature/my-new-feature
-```
-
-3. Commit your changes:
-
-```bash
-git commit -m 'Add some feature'
-```
-
-4. Push your branch:
-
-```bash
-git push origin feature/my-new-feature
-```
-
-5. Open a pull request for review.
-
 ## 📄 License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
