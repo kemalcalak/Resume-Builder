@@ -175,7 +175,7 @@ To deploy this project to Vercel, follow these steps:
 
 After deploying, navigate to **Vercel > Project Settings > Environment Variables** and add the necessary environment variables for production.
 
-Replace all occurrences of `localhost` with your Vercel domain URL, as shown below:
+Replace all occurrences of `localhost` with your Vercel domain URL, as shown below. For example:
 
 ```plaintext
 KINDE_SITE_URL=https://resume-builder-beta-five.vercel.app/
@@ -214,32 +214,6 @@ This will push your latest changes live on Vercel.
 3.  **AI-Powered Assistance**: Leverage Gemini AI for quick resume generation.
 
 4.  **Download as PDF**: Export your resume in a polished PDF format.
-
-## 🛠 Contributing
-
-Contributions are welcome! Follow these steps to contribute:
-
-1. Fork the repository.
-
-2. Create a new feature branch:
-
-```bash
-git checkout -b feature/my-new-feature
-```
-
-3. Commit your changes:
-
-```bash
-git commit -m 'Add some feature'
-```
-
-4. Push your branch:
-
-```bash
-git push origin feature/my-new-feature
-```
-
-5. Open a pull request for review.
 
 ## 📄 License
 
