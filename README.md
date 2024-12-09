@@ -175,7 +175,7 @@ To deploy this project to Vercel, follow these steps:
 
 After deploying, navigate to **Vercel > Project Settings > Environment Variables** and add the necessary environment variables for production.
 
-Replace all occurrences of `localhost` with your Vercel domain URL, as shown below:
+Replace all occurrences of `localhost` with your Vercel domain URL, as shown below. For example:
 
 ```plaintext
 KINDE_SITE_URL=https://resume-builder-beta-five.vercel.app/
