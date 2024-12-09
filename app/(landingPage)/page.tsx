@@ -30,7 +30,7 @@ export default function Home() {
                 resume builder
               </p>
             </h1>
-            <p className="block text-xl mt-3 font-medium text-black/70 ">
+            <p className="block text-xl mt-3 font-medium text-black/70 dark:text-white">
               Create a resume with our free ai builder and share it with a
               shareable link.
             </p>
