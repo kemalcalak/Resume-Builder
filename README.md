@@ -11,15 +11,14 @@
 ## 🚀 Features
 
 -  **User-Friendly Interface**: Simplified data entry process.
--  **Customizable Themes**: Select from various design options.
--  **High-Quality PDF Export**: Download polished resumes as PDFs.
+-  **PDF Export**: Download polished resumes as PDFs.
 -  **Real-Time Preview**: Instantly view updates as you make changes.
 -  **Comprehensive Management**: Manage education, work experiences, and projects.
 -  **Responsive Design**: Optimized for both mobile and desktop devices.
 
 ## 🔧 Technology Stack
 
-- **Authentication with Kinde** - Google Sign-In
+- **Authentication with Kinde** - Google / Github / Linkedin  Sign-In  
 - **Creating Resumes**
 - **Editing Resumes**
 - **Resume Theme Colors**
