@@ -13,6 +13,7 @@ interface Propstype {
 
 const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
   const handleMailClick = () => {
+    // bu fonksiyon eğer resumeInfo.personalInfo.email varsa mailto: ile mail atma işlemi yapar.
     const email = resumeInfo?.personalInfo?.email;
     if (email) {
       window.open(`mailto:${email}`, "_blank");
@@ -23,7 +24,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     const medium = resumeInfo?.personalInfo?.medium;
     if (medium) {
       const fullUrl = `https://medium.com/@${medium}`;
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      return fullUrl;
     }
   };
 
@@ -31,7 +32,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     const website = resumeInfo?.personalInfo?.website;
     if (website) {
       const fullUrl = `https://${website}`;
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      return fullUrl;
     }
   };
 
@@ -39,7 +40,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     const linkedInProfile = resumeInfo?.personalInfo?.linkedin;
     if (linkedInProfile) {
       const fullUrl = `https://www.linkedin.com/in/${linkedInProfile}`;
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      return fullUrl;
     }
   };
 
@@ -47,7 +48,7 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
     const githubProfile = resumeInfo?.personalInfo?.github;
     if (githubProfile) {
       const fullUrl = `https://github.com/${githubProfile}`;
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      return fullUrl;
     }
   };
 
@@ -87,34 +88,34 @@ const PersonalInfo: FC<Propstype> = ({ resumeInfo, isLoading }) => {
         </h5>
         {resumeInfo?.personalInfo?.linkedin && (
           <h5 className="font-normal text-[9px] sm:text-[13px]">
-            <button onClick={handleLinkedlnClick} className="flex items-center">
+              <a href={handleLinkedlnClick()} className="flex items-center" target="_blank" rel="noreferrer">
               <Linkedin size={10} />
               {resumeInfo?.personalInfo?.linkedin || "LinkedIn"}
-            </button>
+              </a>
           </h5>
         )}
         {resumeInfo?.personalInfo?.github && (
           <h5 className="font-normal text-[9px] sm:text-[13px]">
-            <button onClick={handleGithubClick} className="flex items-center">
+              <a href={handleGithubClick()} className="flex items-center" target="_blank" rel="noreferrer">
               <Github size={10} />
               {resumeInfo?.personalInfo?.github || "Github"}
-            </button>
+              </a>
           </h5>
         )}
         {resumeInfo?.personalInfo?.medium && (
           <h5 className="font-normal text-[9px] sm:text-[13px]">
-            <button onClick={handleMediumClick} className="flex items-center">
+              <a href={handleMediumClick()} className="flex items-center" target="_blank" rel="noreferrer">
               <FaMediumM size={10} />
               {resumeInfo?.personalInfo?.medium || "Medium"}
-            </button>
+              </a>
           </h5>
         )}
         {resumeInfo?.personalInfo?.website && (
           <h5 className="font-normal text-[9px] sm:text-[13px]">
-            <button onClick={handleWebsiteClick} className="flex items-center">
+              <a href={handleWebsiteClick()} target="_blank" rel="noreferrer" >
               <Home size={10} />
               {resumeInfo?.personalInfo?.website || "Website"}
-            </button>
+              </a>
           </h5>
         )}
       </div>
